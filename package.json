@@ -1,0 +1,8 @@
+{
+  "name": "boutique",
+  "version": "1.0.0",
+  "description": "store cms providing product, cart, user, etc. management",
+  "main": "index.js",
+  "author": "jora",
+  "license": "MIT"
+}
