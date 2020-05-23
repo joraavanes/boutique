@@ -38,7 +38,6 @@ app.get('/products/:_id', (req, res, next) => {
 app.get('/products', (req, res, next) => {
     Product.find()
         .then(products => {
-            // res.send(products);
             res.render('products/products', {
                 products
             });
@@ -48,84 +47,9 @@ app.get('/products', (req, res, next) => {
         });
 });
 
-app.get('/admin/products', (req, res, next) => {
-    Product.find()
-        .then(products => {
-            res.render('admin/products', { products });
-        })
-        .catch(err => {
-            console.log(err);    
-        });
-});
+// Routes
+app.use('/admin', require('./routes/adminRoutes'));
 
-app.get('/admin/products/new-product', (req, res, next) => {
-    // res.sendFile(path.join(__dirname, 'views/admin/new-product.html'));
-    res.render('admin/new-product');
-});
-
-app.post('/admin/products/new-product', (req, res, next) => {
-    const {title, description, price} = req.body;
-    console.log(title, description, price);
-
-    const product = new Product({title, description, price});
-
-    product.save()
-        .then(() => {
-            console.log('product saved.');
-            res.redirect('/products/new-product');
-        });
-});
-
-app.get('/admin/products/edit-product/:_id', (req, res, next) => {
-    const { _id } = req.params;
-
-    Product.findById(_id)
-        .then(product => {
-            
-            console.log(product);
-            res.render('admin/edit-product', {
-                pageTitle: 'Edit product ' + product.title,
-                product
-            });
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-});       
-
-app.post('/admin/products/edit-product', (req, res, next) => {
-    const {_id, title, description, price} = req.body;
-
-    Product.findById(_id)
-        .then(product => {
-            product.title = title;
-            product.description = description;
-            product.price = price;
-
-            return product.save();
-        })
-        .then(result => {
-            console.log('Product updated!');
-            return res.redirect('/admin/products');
-        })
-        .catch(err => {
-            console.log(err);
-        });
-
-});
-
-app.post('/admin/products/delete-product', (req, res, next) => {
-    const {_id} = req.body;
-
-    Product.findByIdAndDelete(_id)
-        .then(product => {
-            console.log('product deleted')
-            return res.redirect('/admin/products');
-        })
-        .catch(err => {
-            console.log(err);
-        });
-});
 
 app.get('/', (req, res, next) => {
     res.send('Hello ... this is boutique');
