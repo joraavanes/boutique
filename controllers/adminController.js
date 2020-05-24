@@ -20,7 +20,12 @@ exports.getNewProduct = (req, res, next) => {
 exports.postNewProduct = (req, res, next) => {
     const {title, description, price} = req.body;
 
-    const product = new Product({title, description, price});
+    const product = new Product({
+        title,
+        description,
+        price,
+        userId: req.user
+    });
 
     product.save()
         .then(() => {
