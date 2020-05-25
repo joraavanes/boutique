@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const Category = require('../models/Category');
 
 exports.products = (req, res, next) => {
     Product.find()
@@ -27,9 +28,12 @@ exports.postNewProduct = (req, res, next) => {
         userId: req.user
     });
 
-    product.save()
-        .then(() => {
-            console.log('product saved.');
+    Category.findOne()
+        .then(category => {
+            product.categoryId = category;
+            return product.save()
+        })
+        .then(doc => {
             res.redirect('/admin/products');
         })
         .catch(err => {
@@ -86,5 +90,24 @@ exports.postDeleteProduct = (req, res, next) => {
         })
         .catch(err => {
             console.log(err);
+        });
+};
+
+exports.getNewCategory = (req, res, next) => {
+    res.render('admin/new-category', {});
+};
+
+exports.postNewCategory = (req, res, next) => {
+    const {title} = req.body;
+
+    const category = new Category({ title });
+
+    category.save()
+        .then(doc => {
+            res.redirect('/admin/products');
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect('/admin/products');
         });
 };

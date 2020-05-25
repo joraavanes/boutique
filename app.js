@@ -29,6 +29,8 @@ app.get('/products/:_id', (req, res, next) => {
     const { _id } = req.params;
 
     Product.findById(_id)
+        .select('_id title description price')
+        .populate('categoryId userId')
         .then(product => {
             // res.send(product);
             res.render('products/product', {

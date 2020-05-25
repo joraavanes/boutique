@@ -20,4 +20,8 @@ router.post('/products/edit-product', adminController.postEditProduct);
 // POST: /admin/products/delete-product
 router.post('/products/delete-product/', adminController.postDeleteProduct);
 
+router.get('/categories/new-category', adminController.getNewCategory);
+
+router.post('/categories/new-category', adminController.postNewCategory);
+
 module.exports = router;
