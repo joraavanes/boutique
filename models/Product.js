@@ -19,6 +19,10 @@ const productSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    categoryId:{
+        type: Schema.Types.ObjectId,
+        ref: 'Category'
     }
 });
 

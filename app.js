@@ -7,7 +7,7 @@ const colors = require('colors');
 const Product = require('./models/Product');
 const User = require('./models/User');
 
-const {connectionString, options} = require('./db/db');
+const {connectionString, localDatabase, options} = require('./db/db');
 const port = process.env.PORT || 3000;
 
 const app = express();
