@@ -25,6 +25,18 @@ app.set('views','views');
 // Middlewares
 app.use(require('./middleware/currentUser'));
 
+// Routes
+app.use('/admin', require('./routes/adminRoutes'));
+
+app.post('/shop/add-to-cart', (req, res, next) => {
+    const { productId, quantity } = req.body;
+
+    Product.findById(productId)
+        .then(product => req.user.addToCart(product, quantity))
+        .then(doc => res.redirect('/products'))
+        .catch(err => console.log(colors.red(err)));
+});
+
 app.get('/products/:_id', (req, res, next) => {
     const { _id } = req.params;
 
@@ -42,6 +54,7 @@ app.get('/products/:_id', (req, res, next) => {
 }); 
 
 app.get('/products', (req, res, next) => {
+
     Product.find()
         .then(products => {
             res.render('products/products', {
@@ -52,10 +65,6 @@ app.get('/products', (req, res, next) => {
             console.log(err);    
         });
 });
-
-// Routes
-app.use('/admin', require('./routes/adminRoutes'));
-
 
 app.get('/', (req, res, next) => {
     res.send(`Hello ... this is boutique. This is ${req.user.name} - ${req.user.email}`);

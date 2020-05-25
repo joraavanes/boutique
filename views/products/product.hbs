@@ -3,3 +3,13 @@
 <hr>
 <p>{{product.description}}</p>
 <p>{{product.price}}</p>
+
+<form action="/shop/add-to-cart" method="POST">
+    <h3>Add to cart</h3>
+    <div>
+        <label for="quantity">Quantity</label>
+        <input type="hidden" name="productId" id="productId" value="{{product._id}}">
+        <input type="number" name="quantity" id="quantity">
+        <input type="submit" value="Add to Cart">
+    </div>
+</form>

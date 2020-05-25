@@ -61,4 +61,21 @@ const userSchema = new Schema({
     }
 });
 
+userSchema.methods.addToCart = function(product, quantity) {
+    const existingProductIndex = this.cart.items.findIndex(item => {
+        return item.productId.toString() === product._id.toString();
+    });
+
+    if(existingProductIndex >= 0){
+        this.cart.items[existingProductIndex].quantity += 1;
+    }else{
+        this.cart.items.push({
+            productId: product,
+            quantity
+        });
+    }
+
+    return this.save();
+};
+
 module.exports = model('User', userSchema);
