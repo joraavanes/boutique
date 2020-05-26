@@ -69,9 +69,15 @@ app.get('/products', (req, res, next) => {
 
 app.get('/', (req, res, next) => {
     // res.send(`Hello ... this is boutique. This is ${req.user.name} - ${req.user.email}`);
-    res.render('home/home', {
-        items: req.user.cart.items
-    });
+    req.user
+        .populate('cart.items.productId')
+        .execPopulate()
+        .then(result => {
+            
+            res.render('home/home', {
+                items: req.user.cart.items
+            });
+        });
 });
 
 app.use((req, res, next) => {
