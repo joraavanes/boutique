@@ -22,7 +22,7 @@ exports.postRemoveItem = (req, res, next) => {
     req.user
         .removeItem(itemId)
         .then(user => {
-            console.log(colors.bgBlue(user));
+            // console.log(colors.bgBlue(user));
 
             return res.redirect('/shop/cart');
         })
@@ -36,7 +36,6 @@ exports.postOrder = (req, res, next) => {
         .populate('cart.items.productId')
         .execPopulate()
         .then(() => {
-            console.log(req.user.cart.items);
 
             const items = req.user.cart.items.map(item => ({
                 quantity: item.quantity,
@@ -53,10 +52,8 @@ exports.postOrder = (req, res, next) => {
 
             return order.save();
         })
-        .then(doc => {
-            console.log(colors.bgBlue(doc));
-            res.redirect('/shop');
-        })
+        .then(doc => req.user.clearItems())
+        .then(user=> res.redirect('/shop'))
         .catch(err => {
             console.log(err);
         });

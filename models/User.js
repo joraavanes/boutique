@@ -67,7 +67,7 @@ userSchema.methods.addToCart = function(product, quantity) {
     });
 
     if(existingProductIndex >= 0){
-        this.cart.items[existingProductIndex].quantity += 1;
+        this.cart.items[existingProductIndex].quantity += Number(quantity);
     }else{
         this.cart.items.push({
             productId: product,
@@ -83,6 +83,11 @@ userSchema.methods.removeItem = function(itemId){
 
     this.cart.items = newItems;
 
+    return this.save();
+};
+
+userSchema.methods.clearItems = function(){
+    this.cart.items = [];
     return this.save();
 };
 

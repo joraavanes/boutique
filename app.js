@@ -55,7 +55,7 @@ app.get('/products/:_id', (req, res, next) => {
 }); 
 
 app.get('/products', (req, res, next) => {
-    console.log(JSON.stringify(req.user, undefined, 5));
+    
     Product.find()
         .then(products => {
             res.render('products/products', {
