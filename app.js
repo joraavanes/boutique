@@ -27,6 +27,7 @@ app.use(require('./middleware/currentUser'));
 
 // Routes
 app.use('/admin', require('./routes/adminRoutes'));
+app.use('/shop', require('./routes/shopRoutes'));
 
 app.post('/shop/add-to-cart', (req, res, next) => {
     const { productId, quantity } = req.body;
@@ -54,7 +55,7 @@ app.get('/products/:_id', (req, res, next) => {
 }); 
 
 app.get('/products', (req, res, next) => {
-
+    console.log(JSON.stringify(req.user, undefined, 5));
     Product.find()
         .then(products => {
             res.render('products/products', {
@@ -67,7 +68,10 @@ app.get('/products', (req, res, next) => {
 });
 
 app.get('/', (req, res, next) => {
-    res.send(`Hello ... this is boutique. This is ${req.user.name} - ${req.user.email}`);
+    // res.send(`Hello ... this is boutique. This is ${req.user.name} - ${req.user.email}`);
+    res.render('home/home', {
+        items: req.user.cart.items
+    });
 });
 
 app.use((req, res, next) => {
