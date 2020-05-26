@@ -78,4 +78,12 @@ userSchema.methods.addToCart = function(product, quantity) {
     return this.save();
 };
 
+userSchema.methods.removeItem = function(itemId){
+    const newItems = this.cart.items.filter(item => item._id.toString() !== itemId);
+
+    this.cart.items = newItems;
+
+    return this.save();
+};
+
 module.exports = model('User', userSchema);
