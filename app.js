@@ -84,6 +84,7 @@ app.use((req, res, next) => {
     res.send('404 ... the page your are looking for doesn\'t exist');
 });
 
+mongoose.Promise = global.Promise;
 mongoose.connect(connectionString, options)
     .then(res => {
         return User.findOne();

@@ -8,6 +8,8 @@ router.get('/cart', shopController.getCart);
 
 router.post('/remove-item', shopController.postRemoveItem);
 
+router.get('/orders', shopController.getOrders);
+
 router.post('/order', shopController.postOrder);
 
 module.exports = router;

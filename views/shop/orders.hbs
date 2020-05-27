@@ -1,0 +1,13 @@
+<h2>Orders</h2>
+
+{{#each orders}}
+    <div>{{this._id}} - {{this.user.name}}</div>
+    <p>Number of items: {{this.items.length}}</p>
+    <p>Date: {{this.issuedDate}}</p>
+    <ul>
+        {{#each this.items}}
+            <li>{{this.product.title}} - quantity: {{this.quantity}}</li>
+        {{/each}}
+    </ul>
+    <hr/>
+{{/each}}

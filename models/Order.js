@@ -1,6 +1,13 @@
 const {Schema, model} = require('mongoose');
 
 const orderSchema = new Schema({
+    issuedDate: {
+        type: Date,
+        required: true,
+        default: function(){
+            return new Date().valueOf();
+        }
+    },
     items:[{
         product: {
             type: Object,
