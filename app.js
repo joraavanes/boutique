@@ -1,11 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const {ObjectId} = require('mongodb');
 const _handlebars = require('handlebars');
 const handlebars = require('express-handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
+const session = require('express-session');
 const colors = require('colors');
 const Product = require('./models/Product');
 const User = require('./models/User');
+// const currentUserMiddleWare = require('./middleware/currentUser');
 
 const {connectionString, localDatabase, options} = require('./db/db');
 const port = process.env.PORT || 3000;
@@ -23,29 +26,34 @@ app.set('view engine', 'hbs');
 app.set('views','views');
 
 // Middlewares
+app.use(session({
+    secret: 'SUPERSECRETKEY!',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 300000
+    }
+}));
 app.use(require('./middleware/currentUser'));
 
 // Routes
 app.use('/admin', require('./routes/adminRoutes'));
 app.use('/shop', require('./routes/shopRoutes'));
-
-app.post('/shop/add-to-cart', (req, res, next) => {
-    const { productId, quantity } = req.body;
-
-    Product.findById(productId)
-        .then(product => req.user.addToCart(product, quantity))
-        .then(doc => res.redirect('/products'))
-        .catch(err => console.log(colors.red(err)));
-});
+app.use('/user', require('./routes/userRoutes'));
 
 app.get('/products/:_id', (req, res, next) => {
     const { _id } = req.params;
+    
+    if(!ObjectId.isValid(_id)){
+        return res.redirect('/products');
+    }
 
     Product.findById(_id)
         .select('_id title description price')
-        .populate('categoryId userId')
+        .populate('categoryId')
         .then(product => {
             // res.send(product);
+            console.log(product);
             res.render('products/product', {
                 product
             });
@@ -55,13 +63,13 @@ app.get('/products/:_id', (req, res, next) => {
 }); 
 
 app.get('/products', (req, res, next) => {
-    
+
     Product.find()
         .then(products => {
             res.render('products/products', {
                 products
             });
-        }) 
+        })
         .catch(err => {
             console.log(err);    
         });
@@ -69,6 +77,8 @@ app.get('/products', (req, res, next) => {
 
 app.get('/', (req, res, next) => {
     // res.send(`Hello ... this is boutique. This is ${req.user.name} - ${req.user.email}`);
+    console.log(req.session.authenticated);
+
     req.user
         .populate('cart.items.productId')
         .execPopulate()

@@ -16,6 +16,15 @@ exports.getCart = (req, res, next) => {
         .catch(err => console.log(err));
 };
 
+exports.postAddItem = (req, res, next) => {
+    const { productId, quantity } = req.body;
+
+    Product.findById(productId)
+        .then(product => req.user.addToCart(product, quantity))
+        .then(doc => res.redirect('/products'))
+        .catch(err => console.log(colors.red(err)));
+};
+
 exports.postRemoveItem = (req, res, next) => {
     const {itemId} = req.body
 

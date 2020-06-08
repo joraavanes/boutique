@@ -1,7 +1,8 @@
 const User = require('../models/User');
 const colors = require('colors');
 
-module.exports = (req, res, next) => {
+module.exports = (req, res, next) => {    
+
     User.findOne()
         // .populate('cart.items.productId')
         .then(user => {

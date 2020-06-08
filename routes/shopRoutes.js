@@ -6,6 +6,8 @@ router.get('/', shopController.getCart);
 
 router.get('/cart', shopController.getCart);
 
+router.post('/add-to-cart', shopController.postAddItem);
+
 router.post('/remove-item', shopController.postRemoveItem);
 
 router.get('/orders', shopController.getOrders);
