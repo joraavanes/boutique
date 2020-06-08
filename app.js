@@ -40,44 +40,11 @@ app.use(require('./middleware/currentUser'));
 app.use('/admin', require('./routes/adminRoutes'));
 app.use('/shop', require('./routes/shopRoutes'));
 app.use('/user', require('./routes/userRoutes'));
-
-app.get('/products/:_id', (req, res, next) => {
-    const { _id } = req.params;
-    
-    if(!ObjectId.isValid(_id)){
-        return res.redirect('/products');
-    }
-
-    Product.findById(_id)
-        .select('_id title description price')
-        .populate('categoryId')
-        .then(product => {
-            // res.send(product);
-            console.log(product);
-            res.render('products/product', {
-                product
-            });
-        }).catch((err) => {
-            console.log(err);
-        });    
-}); 
-
-app.get('/products', (req, res, next) => {
-
-    Product.find()
-        .then(products => {
-            res.render('products/products', {
-                products
-            });
-        })
-        .catch(err => {
-            console.log(err);    
-        });
-});
+app.use('/products', require('./routes/productRoutes'));
 
 app.get('/', (req, res, next) => {
     // res.send(`Hello ... this is boutique. This is ${req.user.name} - ${req.user.email}`);
-    console.log(req.session.authenticated);
+    // console.log(req.session.authenticated);
 
     req.user
         .populate('cart.items.productId')
