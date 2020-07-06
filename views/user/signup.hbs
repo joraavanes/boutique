@@ -1,0 +1,35 @@
+<form action="/user/signup" method="POST">
+    <p>{{errmsg}}</p>
+    <p>{{formmsg}}</p>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" placeholder="Email" autocomplete="off">
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" autocomplete="off">
+    </div>
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name">
+    </div>
+    <div>
+        <label for="surname">Surname:</label>
+        <input type="text" name="surname" id="surname">
+    </div>
+    <input type="submit" value="Signup">
+</form>
+
+{{!-- <script>
+    const emailEl = document.querySelector('#email');
+    const passwordEl = document.querySelector('#password');
+
+    const makeReadonly = e => e.target.addAttribute('readonly','readonly');
+    const removeReadonly = e => e.target.removeAttribute('readonly');
+
+    emailEl.addEventListener('blur', makeReadonly);
+    emailEl.addEventListener('focus', removeReadonly);
+
+    passwordEl.addEventListener('blur', makeReadonly);
+    passwordEl.addEventListener('focus', removeReadonly);
+</script> --}}

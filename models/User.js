@@ -1,4 +1,5 @@
 const {Schema, model} = require('mongoose');
+const genHash = require('../utils/genPasswordHash');
 
 const userSchema = new Schema({
     name:{
@@ -9,7 +10,7 @@ const userSchema = new Schema({
     surname:{
         type: String,
         required: [true, 'Surname is required!'],
-        minlength: 3
+        minlength: [3, 'Surname must be minimum of 3 characters']
     },
     email: {
         type: String,
@@ -61,6 +62,8 @@ const userSchema = new Schema({
     }
 });
 
+
+
 userSchema.methods.addToCart = function(product, quantity) {
     const existingProductIndex = this.cart.items.findIndex(item => {
         return item.productId.toString() === product._id.toString();
@@ -91,4 +94,29 @@ userSchema.methods.clearItems = function(){
     return this.save();
 };
 
-module.exports = model('User', userSchema);
+userSchema.methods.signup = function(){
+    var user = this;
+
+    return User.findOne({email: user.email})
+        .then(doc => {
+            if(doc) return Promise.reject('User already exists');
+
+            // return bcrypt.genSalt(9, (err, salt) => {
+            //     bcrypt.hash(user.password, salt, (err, hash) => {
+            //         user.password = hash;
+            //         return user.save();
+            //     });
+            // });
+            return genHash(user.password);
+        })
+        .then(hash => {
+            user.password = hash;
+            return user.save();
+        })
+        .then(user => Promise.resolve('You have successfully signed up'))
+        .catch(err => Promise.reject(err));
+};
+
+const User = model('User', userSchema);
+
+module.exports = User;
