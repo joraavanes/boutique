@@ -1,5 +1,7 @@
 const {Schema, model} = require('mongoose');
+const colors = require('colors');
 const genHash = require('../utils/genPasswordHash');
+const comparePassword = require('../utils/comparePassword');
 
 const userSchema = new Schema({
     name:{
@@ -93,6 +95,21 @@ userSchema.methods.clearItems = function(){
     this.cart.items = [];
     return this.save();
 };
+
+userSchema.statics.login = function(email, password){
+    
+    let _id;
+    return User.findOne({email})
+        .then(doc => {
+            if(!doc) return Promise.reject('Username or password is invalid');
+
+            _id = doc._id.toString();
+
+            return comparePassword(password, doc.password);
+        })
+        .then(result => Promise.resolve(_id))
+        .catch(err => Promise.reject(err));
+}
 
 userSchema.methods.signup = function(){
     var user = this;

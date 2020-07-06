@@ -8,6 +8,7 @@ const session = require('express-session');
 const colors = require('colors');
 const Product = require('./models/Product');
 const User = require('./models/User');
+const isAuthenticated = require('./middleware/isAuthenticated');
 // const currentUserMiddleWare = require('./middleware/currentUser');
 
 const {connectionString, localDatabase, options} = require('./db/db');
@@ -42,10 +43,7 @@ app.use('/shop', require('./routes/shopRoutes'));
 app.use('/user', require('./routes/userRoutes'));
 app.use('/products', require('./routes/productRoutes'));
 
-app.get('/', (req, res, next) => {
-    // res.send(`Hello ... this is boutique. This is ${req.user.name} - ${req.user.email}`);
-    // console.log(req.session.authenticated);
-
+app.get('/', isAuthenticated, (req, res, next) => {
     req.user
         .populate('cart.items.productId')
         .execPopulate()

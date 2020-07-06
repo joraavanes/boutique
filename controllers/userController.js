@@ -1,15 +1,22 @@
 const User = require('../models/User');
+const colors = require('colors');
 
 exports.getLogin = (req, res, next) => {
     res.render('user/login');
 };
 
 exports.postLogin = (req, res, next) => {
-    req.session.authenticated = {
-        state: true,
-        _id: req.user._id
-    };
-    res.redirect('/');
+    const {email, password} = req.body;
+
+    User.login(email, password)
+        .then(_id => {
+            req.session.auth = {
+                state: true,
+                _id
+            };
+            res.redirect('/');
+        })
+        .catch((err) => res.send(err));
 };
 
 exports.postLogout = (req, res, next) => {
