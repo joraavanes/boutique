@@ -21,7 +21,7 @@ exports.postAddItem = (req, res, next) => {
 
     Product.findById(productId)
         .then(product => req.user.addToCart(product, quantity))
-        .then(doc => res.redirect('/products'))
+        .then(doc => res.redirect('/shop/cart'))
         .catch(err => console.log(colors.red(err)));
 };
 
@@ -31,7 +31,6 @@ exports.postRemoveItem = (req, res, next) => {
     req.user
         .removeItem(itemId)
         .then(user => {
-            // console.log(colors.bgBlue(user));
 
             return res.redirect('/shop/cart');
         })

@@ -1,5 +1,4 @@
 const {Schema, model} = require('mongoose');
-const colors = require('colors');
 const genHash = require('../utils/genPasswordHash');
 const comparePassword = require('../utils/comparePassword');
 
@@ -67,6 +66,8 @@ const userSchema = new Schema({
 
 
 userSchema.methods.addToCart = function(product, quantity) {
+    quantity = quantity || 1;
+
     const existingProductIndex = this.cart.items.findIndex(item => {
         return item.productId.toString() === product._id.toString();
     });
@@ -76,7 +77,7 @@ userSchema.methods.addToCart = function(product, quantity) {
     }else{
         this.cart.items.push({
             productId: product,
-            quantity
+            quantity: Number(quantity)
         });
     }
 
