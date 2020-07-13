@@ -6,6 +6,9 @@
         {{#each items}}
             <li>{{this.productId.title}} - quantity: {{this.quantity}}
                 <form action="/shop/remove-item" method="POST">
+                    <div>
+                        <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+                    </div>
                     <input type="hidden" name="itemId" id="itemId" value="{{this._id}}">
                     <input type="submit" value="Remove item">
                 </form>
@@ -16,4 +19,9 @@
 <hr>
 
 <h3>Order now!</h3>
-<form action="/shop/order" method="post"><input type="submit" value="Order it"></form>
+<form action="/shop/order" method="post">
+    <div>
+        <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+    </div>
+    <input type="submit" value="Order it">
+</form>

@@ -8,6 +8,10 @@
     <form action="/shop/add-to-cart" method="POST">
         <h3>Add to cart</h3>
         <div>
+            <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+        </div>
+        
+        <div>
             <label for="quantity">Quantity</label>
             <input type="hidden" name="productId" id="productId" value="{{product._id}}">
             <input type="number" name="quantity" id="quantity">

@@ -8,6 +8,10 @@
 <body>
     {{#if auth}}
         <form action="/user/logout" method="POST">
+            <div>
+                <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+            </div>
+
             <input type="submit" value="Logout">
         </form>
     {{/if}}

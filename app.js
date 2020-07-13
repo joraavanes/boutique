@@ -5,6 +5,7 @@ const handlebars = require('express-handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 const session = require('express-session');
 const SessionStore = require('connect-mongodb-session')(session);
+const csrf = require('csurf');
 const colors = require('colors');
 
 const User = require('./models/User');
@@ -42,6 +43,9 @@ app.use(session({
     },
     store: sessionStore
 }));
+app.use(csrf());
+app.use(require('./middleware/csrfTokens'));
+
 app.use(require('./middleware/currentUser'));
 app.use(require('./middleware/checkAuth'));
 

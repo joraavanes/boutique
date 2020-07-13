@@ -12,8 +12,7 @@ exports.getProduct = (req, res, next) => {
         .select('_id title description price')
         .populate('categoryId')
         .then(product => {
-            // res.send(product);
-            // console.log(product);
+            
             res.render('products/product', {
                 product
             });

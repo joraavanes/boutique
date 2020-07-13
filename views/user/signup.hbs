@@ -2,6 +2,9 @@
     <p>{{errmsg}}</p>
     <p>{{formmsg}}</p>
     <div>
+        <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+    </div>
+    <div>
         <label for="email">Email:</label>
         <input type="email" name="email" id="email" placeholder="Email" autocomplete="off">
     </div>
