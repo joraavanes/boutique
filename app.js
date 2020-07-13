@@ -12,6 +12,7 @@ const authorize = require('./middleware/authorize');
 // const currentUserMiddleWare = require('./middleware/currentUser');
 
 const {connectionString, localDatabase, options} = require('./db/db');
+const checkAuth = require('./middleware/checkAuth');
 const port = process.env.PORT || 3000;
 
 const app = express();
@@ -46,7 +47,7 @@ app.use(require('./middleware/checkAuth'));
 
 // Routes
 app.use('/admin', authorize, require('./routes/adminRoutes'));
-app.use('/shop', require('./routes/shopRoutes'));
+app.use('/shop', authorize, require('./routes/shopRoutes'));
 app.use('/user', require('./routes/userRoutes'));
 app.use('/products', require('./routes/productRoutes'));
 
