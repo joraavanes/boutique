@@ -14,8 +14,9 @@ exports.postLogin = (req, res, next) => {
                 state: true,
                 _id
             };
-            res.redirect('/');
+            return req.session.save();            
         })
+        .then(() => res.redirect('/'))
         .catch((err) => res.send(err));
 };
 

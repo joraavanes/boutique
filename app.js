@@ -6,6 +6,7 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 const session = require('express-session');
 const SessionStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
+const helmet = require('helmet');
 const colors = require('colors');
 
 const User = require('./models/User');
@@ -43,6 +44,7 @@ app.use(session({
     },
     store: sessionStore
 }));
+app.use(helmet());
 app.use(csrf());
 app.use(require('./middleware/csrfTokens'));
 
@@ -56,7 +58,7 @@ app.use('/user', require('./routes/userRoutes'));
 app.use('/products', require('./routes/productRoutes'));
 
 app.get('/', (req, res, next) => {
-    console.log(colors.bgCyan(req.session.auth));
+    console.log(colors.bgCyan(req.session));
     if(!req.user) return res.render('home/home');
 
     req.user
