@@ -1,0 +1,17 @@
+.bg-secondary-transparent{
+    background-color: rgba(108, 117, 125, 0.75);
+    backdrop-filter: blur(.3rem);
+}
+
+@media screen and (min-width: 992px){
+    .dropdown-menu{
+        display: block;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all .2s ease-in-out;
+    }
+    .dropdown-menu.show{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

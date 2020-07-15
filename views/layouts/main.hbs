@@ -1,21 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{pageTitle}}</title>
-</head>
-<body>
-    {{#if auth}}
-        <form action="/user/logout" method="POST">
-            <div>
-                <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{pageTitle}}</title>
+        <meta name="description" content="Your boutique is here explore hundreds of magical items">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/styles.css" type="text/css">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary-transparent sticky-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-warning" type="submit">Search</button>
+                    </form>
+                    <a href="/user/login" class="btn btn-secondary" style="margin-left: 5px;">Login</a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" style="width: unset;">
+                    <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                        {{#if auth}}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                                    Profile
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="left: unset;right: 0;">
+                                    <li><a class="dropdown-item" href="/admin/products">Administration</a></li>
+                                    <li><a class="dropdown-item" href="/admin/orders">Orders</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    <li><a class="dropdown-item" id="logout-btn" href="#">Logout</a></li>
+                                </ul>
+                            </li>
+                        {{/if}}
+                    </ul>                    
+                </div>
             </div>
+        </nav>
 
-            <input type="submit" value="Logout">
-        </form>
-    {{/if}}
+        <div class="container">
+            <div class="row">
+                {{{body}}}
+            </div>
+        </div>
 
-    {{{body}}}    
-</body>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+        
+        {{#if auth}}
+            <form action="/user/logout" method="POST" id="logout-form"><input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}"></form>
+            <script>
+                let logoutBtn = document.querySelector('#logout-btn');
+                let logoutForm = document.querySelector('#logout-form');
+
+                logoutBtn.addEventListener('click', () => logoutForm.submit());
+            </script>
+        {{/if}}
+    </body>
 </html>

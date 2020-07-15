@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const _handlebars = require('handlebars');
@@ -20,7 +21,7 @@ const port = process.env.PORT || 3000;
 const app = express();
 
 // View engine setup
-app.engine('hbs', handlebars({ 
+app.engine('hbs', handlebars({
     extname: 'hbs',
     handlebars: allowInsecurePrototypeAccess(_handlebars)
 }));
@@ -44,6 +45,7 @@ app.use(session({
     },
     store: sessionStore
 }));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
 app.use(csrf());
 app.use(require('./middleware/csrfTokens'));
@@ -67,6 +69,7 @@ app.get('/', (req, res, next) => {
         .then(result => {
             
             res.render('home/home', {
+                pageTitle: 'Boutique',
                 items: req.user.cart.items
             });
         });
