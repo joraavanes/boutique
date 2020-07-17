@@ -1,23 +1,29 @@
-<h1>{{product.title}}</h1>
-<h2>{{product.categoryId.title}}</h2>
-<hr>
-<p>{{product.description}}</p>
-<p>{{product.price}}</p>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>{{product.title}}</h1>
+            <h2>{{product.categoryId.title}}</h2>
+            <hr>
+            <p>{{product.description}}</p>
+            <p>{{product.price}}</p>
 
-{{#if auth}}
-    <form action="/shop/add-to-cart" method="POST">
-        <h3>Add to cart</h3>
-        <div>
-            <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+            {{#if auth}}
+                <form action="/shop/add-to-cart" method="POST">
+                    <h3>Add to cart</h3>
+                    <div>
+                        <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+                    </div>
+                    
+                    <div>
+                        <label for="quantity">Quantity</label>
+                        <input type="hidden" name="productId" id="productId" value="{{product._id}}">
+                        <input type="number" name="quantity" id="quantity">
+                        <input type="submit" value="Add to Cart">
+                    </div>
+                </form>
+            {{else}}
+                <p>Please login to add to cart</p>
+            {{/if}}
         </div>
-        
-        <div>
-            <label for="quantity">Quantity</label>
-            <input type="hidden" name="productId" id="productId" value="{{product._id}}">
-            <input type="number" name="quantity" id="quantity">
-            <input type="submit" value="Add to Cart">
-        </div>
-    </form>
-{{else}}
-    <p>Please login to add to cart</p>
-{{/if}}
+    </div>
+</div>

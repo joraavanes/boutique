@@ -1,9 +1,15 @@
-{{#each products}}
-    <div>
-        <h2>{{this.title}}</h2>
-        <p>{{this.description}}</p>
-        <p>{{this.price}}</p>
-        <a href="/products/{{this._id}}">Details</a>
-        <hr>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            {{#each products}}
+                <div>
+                    <h2>{{this.title}}</h2>
+                    <p>{{this.description}}</p>
+                    <p>{{this.price}}</p>
+                    <a href="/products/{{this._id}}">Details</a>
+                    <hr>
+                </div>
+            {{/each}}
+        </div>
     </div>
-{{/each}}
+</div>

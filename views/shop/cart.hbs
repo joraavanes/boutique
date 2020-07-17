@@ -1,27 +1,35 @@
-<h1>Welcome</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            
+            <h1>Welcome</h1>
 
-<div>
-    <h2>Cart</h2>
-    <ul>
-        {{#each items}}
-            <li>{{this.productId.title}} - quantity: {{this.quantity}}
-                <form action="/shop/remove-item" method="POST">
-                    <div>
-                        <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
-                    </div>
-                    <input type="hidden" name="itemId" id="itemId" value="{{this._id}}">
-                    <input type="submit" value="Remove item">
-                </form>
-            </li>
-        {{/each}}
-    </ul>
-</div>
-<hr>
+            <div>
+                <h2>Cart</h2>
+                <ul>
+                    {{#each items}}
+                        <li>{{this.productId.title}} - quantity: {{this.quantity}}
+                            <form action="/shop/remove-item" method="POST">
+                                <div>
+                                    <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+                                </div>
+                                <input type="hidden" name="itemId" id="itemId" value="{{this._id}}">
+                                <input type="submit" value="Remove item">
+                            </form>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <hr>
 
-<h3>Order now!</h3>
-<form action="/shop/order" method="post">
-    <div>
-        <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+            <h3>Order now!</h3>
+            <form action="/shop/order" method="post">
+                <div>
+                    <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+                </div>
+                <input type="submit" value="Order it">
+            </form>
+            
+        </div>
     </div>
-    <input type="submit" value="Order it">
-</form>
+</div>

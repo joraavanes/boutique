@@ -1,17 +1,27 @@
 
-<a href="/admin/products/new-product">Add new Product</a>
+<div class="container margin-top-nav">
+    <div class="row">
+        <div class="col-12">
 
-{{#each products}}
-    <div>
-        <h2>{{this.title}}</h2>
-        <p>{{this.description}}</p>
-        <p>{{this.price}}</p>
-        <a href="/admin/products/edit-product/{{this._id}}">Edit</a>
+            <h1>Products</h1>
+            <hr>
+            <a href="/admin/products/new-product">Add new Product</a>
 
-        <form action="/admin/products/delete-product" method="POST">
-            <input type="hidden" name="_id" id="_id" value={{this._id}}>
-            <input type="submit" value="Delete">
-        </form>
-        <hr>
-    </div>
-{{/each}}
+            {{#each products}}
+                <div>
+                    <h2>{{this.title}}</h2>
+                    <p>{{this.description}}</p>
+                    <p>{{this.price}}</p>
+                    <a href="/admin/products/edit-product/{{this._id}}">Edit</a>
+
+                    <form action="/admin/products/delete-product" method="POST">
+                        <input type="hidden" name="_id" id="_id" value={{this._id}}>
+                        <input type="submit" value="Delete">
+                    </form>
+                    <hr>
+                </div>
+            {{/each}}
+
+        </div>
+    </div>    
+</div>

@@ -1,27 +1,33 @@
-<form action="/user/signup" method="POST">
-    <p>{{errmsg}}</p>
-    <p>{{formmsg}}</p>
-    <div>
-        <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <form action="/user/signup" method="POST">
+                <p>{{errmsg}}</p>
+                <p>{{formmsg}}</p>
+                <div>
+                    <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" placeholder="Email" autocomplete="off">
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" autocomplete="off">
+                </div>
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" name="name" id="name">
+                </div>
+                <div>
+                    <label for="surname">Surname:</label>
+                    <input type="text" name="surname" id="surname">
+                </div>
+                <input type="submit" value="Signup">
+            </form>
+        </div>
     </div>
-    <div>
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" placeholder="Email" autocomplete="off">
-    </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" autocomplete="off">
-    </div>
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name">
-    </div>
-    <div>
-        <label for="surname">Surname:</label>
-        <input type="text" name="surname" id="surname">
-    </div>
-    <input type="submit" value="Signup">
-</form>
+</div>
 
 {{!-- <script>
     const emailEl = document.querySelector('#email');

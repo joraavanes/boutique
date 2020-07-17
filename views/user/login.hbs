@@ -1,20 +1,26 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
 
-<main class="col-12">
-    <h1 class="h2">Login</h1>
-    <hr>
-    <form action="" method="post">
-        <div>
-            <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
-        </div>
+            <main class="col-12">
+                <h1 class="h2">Login</h1>
+                <hr>
+                <form action="" method="post">
+                    <div>
+                        <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+                    </div>
 
-        <div>
-            <label for="email">Email</label>
-            <input type="text" name="email" id="email" autofocus>
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email" autofocus>
+                    </div>
+                    <div>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password">
+                    </div>
+                    <input type="submit" value="Login">
+                </form>
+            </main>
         </div>
-        <div>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password">
-        </div>
-        <input type="submit" value="Login">
-    </form>
-</main>
+    </div>
+</div>
