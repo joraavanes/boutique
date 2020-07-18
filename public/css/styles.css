@@ -8,8 +8,11 @@
 }
 
 @media screen and (min-width: 992px){
+    .nav-item.dropdown:hover .dropdown-menu{
+        display:block;
+    }
     .dropdown-menu{
-        display: block;
+        display: none;
         opacity: 0;
         transform: translateY(-10px);
         transition: all .2s ease-in-out;

@@ -23,7 +23,15 @@ const app = express();
 // View engine setup
 app.engine('hbs', handlebars({
     extname: 'hbs',
-    handlebars: allowInsecurePrototypeAccess(_handlebars)
+    handlebars: allowInsecurePrototypeAccess(_handlebars),
+    helpers:{
+        formatDate: function(value){
+            return new Date(value).toLocaleDateString();
+        },
+        formatIndex: function(value){
+            return value + 1;
+        }
+    }
 }));
 app.set('view engine', 'hbs');
 app.set('views','views');

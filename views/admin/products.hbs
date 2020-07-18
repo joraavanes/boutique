@@ -1,5 +1,5 @@
 
-<div class="container margin-top-nav">
+{{!-- <div class="container margin-top-nav">
     <div class="row">
         <div class="col-12">
 
@@ -12,6 +12,7 @@
                     <h2>{{this.title}}</h2>
                     <p>{{this.description}}</p>
                     <p>{{this.price}}</p>
+                    <p>{{this.show}}</p>
                     <a href="/admin/products/edit-product/{{this._id}}">Edit</a>
 
                     <form action="/admin/products/delete-product" method="POST">
@@ -24,4 +25,56 @@
 
         </div>
     </div>    
+</div> --}}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+                <nav aria-label="breadcrumb" style="margin-top: 20px;">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Products</li>
+                    </ol>
+                </nav>
+                <div class="clearfix margin-top-nav">
+                    <h1 class="float-left">Products</h1>
+                    <a class="btn btn-success btn-sm float-right" href="/admin/products/new-product">Add new Product</a>
+                </div>
+                <hr>
+
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">show</th>
+                        <th scope="col">Edit & Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each products}}
+                            <tr>
+                                <th scope="row">{{formatIndex @index}}</th>
+                                <td>{{this.title}}</td>
+                                <td>{{this.description}}</td>
+                                <td>{{this.price}}</td>
+                                <td>{{this.show}}</td>
+                                <td>
+                                    <a class="btn btn-warning btn-sm" href="/admin/products/edit-product/{{this._id}}">Edit</a>
+
+                                    <form action="/admin/products/delete-product" method="POST" style="display: inline;">
+                                        <input type="hidden" name="_id" id="_id" value={{this._id}}>
+                                        <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                                    </form>                
+                                </td>
+                            </tr>    
+                        {{/each}}
+                    </tbody>
+                </table>
+
+            <a class="btn btn-success btn-sm" href="/admin/products/new-product">Add new Product</a>
+        </div>
+    </div>
 </div>

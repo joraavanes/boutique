@@ -16,6 +16,14 @@ const productSchema = new Schema({
         required: true,
         min: 1
     },
+    show:{
+        type: Boolean,
+        required: true
+    },
+    issuedDate:{
+        type: Number,
+        required: true
+    },
     userId: {
         type: Schema.Types.ObjectId,
         ref: 'User'

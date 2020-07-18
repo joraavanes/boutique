@@ -1,4 +1,18 @@
-<div class="container">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb" style="margin-top: 20px;">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/products">Products</a></li>
+                    <li class="breadcrumb-item active">Edit Product ( {{product.title}} )</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="container margin-top-nav">
     <div class="row">
         <div class="col-12">
             <h2>Edit Product {{product.title}}</h2>
@@ -20,6 +34,14 @@
                 <div>
                     <label for="price">Price</label>
                     <input type="text" name="price" id="price" value="{{product.price}}"/>
+                </div>
+                <div>
+                    {{#if product.show}}
+                        <input type="checkbox" name="show" id="show" checked="checked">
+                    {{else}}
+                        <input type="checkbox" name="show" id="show">
+                    {{/if}}
+                    <label for="show">Show</label>
                 </div>
                 <input type="submit" value="Edit"/>
             </form>

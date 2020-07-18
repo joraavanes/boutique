@@ -23,7 +23,7 @@ exports.getProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
 
-    Product.find()
+    Product.find({show: true})
         .then(products => {
             res.render('products/products', {
                 products

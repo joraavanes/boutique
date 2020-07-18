@@ -19,12 +19,14 @@ exports.getNewProduct = (req, res, next) => {
 };
 
 exports.postNewProduct = (req, res, next) => {
-    const {title, description, price} = req.body;
+    const {title, description, price, show} = req.body;
 
     const product = new Product({
         title,
         description,
         price,
+        issuedDate: new Date().valueOf(),
+        show: show === 'on'? true : false,
         userId: req.user
     });
 
@@ -60,18 +62,18 @@ exports.getEditProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-    const {_id, title, description, price} = req.body;
+    const {_id, title, description, price, show} = req.body;
 
     Product.findById(_id)
         .then(product => {
             product.title = title;
             product.description = description;
             product.price = price;
+            product.show = show === 'on' ? true : false;
 
             return product.save();
         })
         .then(result => {
-            console.log('Product updated!');
             return res.redirect('/admin/products');
         })
         .catch(err => {
