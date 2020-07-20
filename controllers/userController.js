@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const colors = require('colors');
 
+const { transporter } = require('../utils/mailer');
+
 exports.getLogin = (req, res, next) => {
     res.render('user/login');
 };
@@ -34,7 +36,19 @@ exports.postSignup = (req, res, next) => {
     const user = new User({email, password, name, surname, userConfirmed: false});
 
     user.signup()
-        .then(result => res.render('user/signup', {formmsg: result}))
+        .then(result => {
+
+            res.render('user/signup', {formmsg: result});
+
+            transporter.sendMail({
+                to: email,
+                from: 'jora_a@outlook.com',
+                subject: 'Congratulations',
+                html: `<h2>You have successfully signed up</h2>
+                        <p>Welcome ${name} ${surname} to your boutique store. You can login through this <a href="localhost:3000/user/login">link</a></p>.`
+            });
+        })
+        // .then(mail => console.log(mail))
         .catch(err => res.render('user/signup', {errmsg: err}));
 };
 
