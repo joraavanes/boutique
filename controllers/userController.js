@@ -40,15 +40,15 @@ exports.postSignup = (req, res, next) => {
 
             res.render('user/signup', {formmsg: result});
 
-            transporter.sendMail({
-                to: email,
-                from: 'jora_a@outlook.com',
-                subject: 'Congratulations',
-                html: `<h2>You have successfully signed up</h2>
-                        <p>Welcome ${name} ${surname} to your boutique store. You can login through this <a href="localhost:3000/user/login">link</a></p>.`
-            });
+            // return transporter.sendMail({
+            //     to: email,
+            //     from: 'jora_a@outlook.com',
+            //     subject: 'Congratulations',
+            //     html: `<h2>You have successfully signed up</h2>
+            //             <p>Welcome ${name} ${surname} to your boutique store. You can login through this <a href="localhost:3000/user/login">link</a></p>.`
+            // });
         })
-        // .then(mail => console.log(mail))
+        .then(mail => console.log(mail))
         .catch(err => res.render('user/signup', {errmsg: err}));
 };
 

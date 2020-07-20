@@ -7,6 +7,7 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 const session = require('express-session');
 const SessionStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
+const {config} = require('dotenv');
 const helmet = require('helmet');
 const colors = require('colors');
 
@@ -14,8 +15,9 @@ const User = require('./models/User');
 const authorize = require('./middleware/authorize');
 // const currentUserMiddleWare = require('./middleware/currentUser');
 
+config({ path: './config/config.env'});
+
 const {connectionString, localDatabase, options} = require('./db/db');
-const checkAuth = require('./middleware/checkAuth');
 const port = process.env.PORT || 3000;
 
 const app = express();
