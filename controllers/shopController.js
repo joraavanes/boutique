@@ -1,6 +1,5 @@
 const Product = require('../models/Product');
 const User = require('../models/User');
-const colors = require('colors');
 const Order = require('../models/Order');
 
 exports.getCart = (req, res, next) => {
@@ -22,7 +21,7 @@ exports.postAddItem = (req, res, next) => {
     Product.findById(productId)
         .then(product => req.user.addToCart(product, quantity))
         .then(doc => res.redirect('/shop/cart'))
-        .catch(err => console.log(colors.red(err)));
+        .catch(err => console.log(err));
 };
 
 exports.postRemoveItem = (req, res, next) => {

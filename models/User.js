@@ -38,6 +38,12 @@ const userSchema = new Schema({
     lastLogin:{
         type: Date
     },
+    resetPasswordToken: {
+        type: String,
+    },
+    resetPasswordExpiration: {
+        type: String
+    },
     tokens:[{
         access:{
             type: String,
@@ -133,6 +139,34 @@ userSchema.methods.signup = function(){
         })
         .then(user => Promise.resolve('You have successfully signed up'))
         .catch(err => Promise.reject(err));
+};
+
+userSchema.statics.generateResetPasswordToken = function(email, token) {
+
+    return User.findOne({email})
+                .then(user => {
+                    user.resetPasswordToken = token;
+                    // const expiration = new Date().getTime() + 3600000;
+                    user.resetPasswordExpiration = new Date().getTime() + 3600000;
+
+                    return user.save();
+                })
+                .then(user => Promise.resolve(user))
+                .catch(err => Promise.reject());
+};
+
+userSchema.statics.newPassword = function(email, newPassword){
+    return genHash(newPassword)
+            .then(hash => {
+                return User.updateOne({email}, {password: hash, resetPasswordToken: undefined, resetPasswordExpiration: undefined});
+            })
+            .then(user => {
+                if(user.ok == 1)
+                    return Promise.resolve(user);
+                else
+                    return Promise.reject();
+            })
+            .catch(err => Promise.reject());
 };
 
 const User = model('User', userSchema);

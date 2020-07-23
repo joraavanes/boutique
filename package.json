@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node app.js",
-    "dev": "start http://localhost:3000 & nodemon app.js"
+    "dev": "start http://localhost:3000 & nodemon app.js --verbose"
   },
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.3",

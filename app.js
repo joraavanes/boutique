@@ -11,9 +11,7 @@ const {config} = require('dotenv');
 const helmet = require('helmet');
 const colors = require('colors');
 
-const User = require('./models/User');
 const authorize = require('./middleware/authorize');
-// const currentUserMiddleWare = require('./middleware/currentUser');
 
 config({ path: './config/config.env'});
 
@@ -70,7 +68,7 @@ app.use('/user', require('./routes/userRoutes'));
 app.use('/products', require('./routes/productRoutes'));
 
 app.get('/', (req, res, next) => {
-    console.log(colors.bgCyan(req.session));
+    console.log(colors.cyan(req.session));
     if(!req.user) return res.render('home/home');
 
     req.user
@@ -91,16 +89,13 @@ app.use((req, res, next) => {
 
 mongoose.Promise = global.Promise;
 mongoose.connect(connectionString, options)
-    .then(res => {
-        return User.findOne();
-    })
     .then(user => {
-        if(!user) {
-            const user = new User({email: 'jora_a@outlook.com', name: 'Jora', surname: 'avanesians', password: 'Hello@world'})    ;
-            user.save();
-        }
+        // if(!user) {
+        //     const user = new User({email: 'jora_a@outlook.com', name: 'Jora', surname: 'avanesians', password: 'Hello@world'})    ;
+        //     user.save();
+        // }
         
-        app.listen(port, () => console.log(colors.bgGreen(colors.black(`App is running on http://localhost:${port}`))))
+        app.listen(port, () => console.log(colors.bgGreen(`App is running on http://localhost:${port}`)));
     })
     .catch(err => { 
         console.log(colors.bgRed(`Database failed to connect: ${err} `));
