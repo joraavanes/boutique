@@ -1,7 +1,10 @@
+const {ObjectId} = require('mongodb');
 const Product = require('../models/Product');
 const User = require('../models/User');
 const Order = require('../models/Order');
 
+// GET: /shop
+// GET: /shop/cart
 exports.getCart = (req, res, next) => {
     req.user
         .populate('cart.items.productId')
@@ -15,6 +18,7 @@ exports.getCart = (req, res, next) => {
         .catch(err => console.log(err));
 };
 
+// POST: /shop/add-to-cart
 exports.postAddItem = (req, res, next) => {
     const { productId, quantity } = req.body;
 
@@ -24,13 +28,13 @@ exports.postAddItem = (req, res, next) => {
         .catch(err => console.log(err));
 };
 
+// POST: /shop/remove-item
 exports.postRemoveItem = (req, res, next) => {
     const {itemId} = req.body
 
     req.user
         .removeItem(itemId)
         .then(user => {
-
             return res.redirect('/shop/cart');
         })
         .catch((err) => {
@@ -38,9 +42,10 @@ exports.postRemoveItem = (req, res, next) => {
         });
 };
 
+// GET: /shop/orders
 exports.getOrders = (req, res, next) => {
 
-    Order.find()
+    Order.find({ 'user.userId': ObjectId(req.user._id.toString()) })
         .sort({ issuedDate: -1 })
         .then(orders => {
             res.render('shop/orders', { orders });
@@ -50,6 +55,7 @@ exports.getOrders = (req, res, next) => {
         });
 };
 
+// POST: /shop/order
 exports.postOrder = (req, res, next) => {
     req.user
         .populate('cart.items.productId')

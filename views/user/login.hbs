@@ -5,20 +5,22 @@
             <main class="col-12">
                 <h1 class="h2">Login</h1>
                 <hr>
-                <form action="" method="post">
-                    <div>
-                        <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
-                    </div>
+                <form method="POST">
+                    <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
 
-                    <div>
-                        <label for="email">Email</label>
-                        <input type="text" name="email" id="email" autofocus>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" name="email" id="email" class="form-control" aria-describedby="emailHelp">
                     </div>
-                    <div>
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="password">
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" id="password">
                     </div>
-                    <input type="submit" value="Login">
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Login</button>
                 </form>
             </main>
         </div>

@@ -3,10 +3,12 @@ const randomBytes = require('../utils/randomBytes');
 
 const { gmailTransporter } = require('../utils/mailer');
 
+// GET: /user/login
 exports.getLogin = (req, res, next) => {
     res.render('user/login');
 };
 
+// POST: /user/login
 exports.postLogin = (req, res, next) => {
     const {email, password} = req.body;
 
@@ -21,15 +23,18 @@ exports.postLogin = (req, res, next) => {
         .catch((err) => res.send(err));
 };
 
+// POST: /user/logout
 exports.postLogout = (req, res, next) => {
     req.session.destroy();
     res.redirect('/');
 };
 
+// GET: /user/signup
 exports.getSignup = (req, res, next) => {
     res.render('user/signup');
 };
 
+// POST: /user/signup
 exports.postSignup = (req, res, next) => {
     const {email, password, name, surname} = req.body;
 
@@ -52,10 +57,12 @@ exports.postSignup = (req, res, next) => {
         .catch(err => res.render('user/signup', {errmsg: err}));
 };
 
+// GET: /user/resetPassword
 exports.getResetPassword = (req, res, next) => {    
     res.render('user/resetPassword.hbs');
 };
 
+// POST: /user/resetPassword
 exports.postResetPassword = (req, res, next) => {
     const {email} = req.body;
 
@@ -78,6 +85,7 @@ exports.postResetPassword = (req, res, next) => {
         .catch((err) => res.render('user/resetPassword', { errmsg: 'No users found' }));
 };
 
+// GET: /user/newPassword/:token
 exports.getNewPassword = (req, res, next) => {
     const {token} = req.params;
 
@@ -93,6 +101,7 @@ exports.getNewPassword = (req, res, next) => {
         })
 };
 
+// POST: /user/newPassword
 exports.postNewPassword = (req, res, next) => {
     const {token, newPassword, confirmNewPassword, userId} = req.body;
     console.log(newPassword, confirmNewPassword);

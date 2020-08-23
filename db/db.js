@@ -1,6 +1,6 @@
-exports.connectionString = 'mongodb+srv://jora:OjoEHwrKqsLhimdo@cluster0-8jnyu.mongodb.net/boutique?retryWrites=true&w=majority';
+exports.connectionString = process.env.MONGODB_URI;
 
-exports.localDatabase = 'mongodb://localhost:27017/boutique';
+exports.localDatabase = process.env.MONGO_URI_LOCAL;
 
 exports.options = {
     useNewUrlParser: true,

@@ -1,3 +1,15 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
+
+html,body{
+    font-family:  'MuseoModerno', cursive;
+}
+
+.monoton{
+    font-family: 'Monoton', cursive;
+}
+
 .margin-top-nav{
     margin-top: 30px;
 }

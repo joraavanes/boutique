@@ -63,11 +63,12 @@
                                 <td>{{this.show}}</td>
                                 <td>
                                     <a class="btn btn-warning btn-sm" href="/admin/products/edit-product/{{this._id}}">Edit</a>
+                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-modal">Delete</button>
 
-                                    <form action="/admin/products/delete-product" method="POST" style="display: inline;">
+                                    {{!-- <form action="/admin/products/delete-product" method="POST" style="display: inline;">
                                         <input type="hidden" name="_id" id="_id" value={{this._id}}>
                                         <input type="submit" value="Delete" class="btn btn-danger btn-sm">
-                                    </form>                
+                                    </form>                 --}}
                                 </td>
                             </tr>    
                         {{/each}}
@@ -77,4 +78,25 @@
             <a class="btn btn-success btn-sm" href="/admin/products/new-product">Add new Product</a>
         </div>
     </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger">Delete anyway</button>
+      </div>
+    </div>
+  </div>
 </div>
