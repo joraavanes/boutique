@@ -1,3 +1,5 @@
+const {validationResult} = require('express-validator');
+
 const User = require('../models/User');
 const randomBytes = require('../utils/randomBytes');
 
@@ -10,6 +12,12 @@ exports.getLogin = (req, res, next) => {
 
 // POST: /user/login
 exports.postLogin = (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).render('user/login', 
+            {errMessage: 'Please enter your username and password'});
+    }
+
     const {email, password} = req.body;
 
     User.login(email, password)
@@ -20,7 +28,7 @@ exports.postLogin = (req, res, next) => {
             };
             req.session.save(() => res.redirect('/'));            
         })
-        .catch((err) => res.send(err));
+        .catch((err) => res.status(400).render('user/login', {errMessage: 'Username or password is incorrect'}));
 };
 
 // POST: /user/logout
@@ -38,6 +46,16 @@ exports.getSignup = (req, res, next) => {
 exports.postSignup = (req, res, next) => {
     const {email, password, name, surname} = req.body;
 
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).render('user/signup', {
+            errMessage: errors.array(),
+            email,
+            name,
+            surname
+        });
+    }
+
     const user = new User({email, password, name, surname, userConfirmed: false});
 
     user.signup()
@@ -54,7 +72,13 @@ exports.postSignup = (req, res, next) => {
             });
         })
         .then(mail => console.log(mail))
-        .catch(err => res.render('user/signup', {errmsg: err}));
+        .catch(err => {
+            res.render('user/signup', {
+                errmsg: err,
+                name,
+                surname
+            });
+        });
 };
 
 // GET: /user/resetPassword
@@ -104,7 +128,6 @@ exports.getNewPassword = (req, res, next) => {
 // POST: /user/newPassword
 exports.postNewPassword = (req, res, next) => {
     const {token, newPassword, confirmNewPassword, userId} = req.body;
-    console.log(newPassword, confirmNewPassword);
 
     if(newPassword !== confirmNewPassword) return res.render('user/newPassword', {errmsg: 'Password dont match each other'});
 

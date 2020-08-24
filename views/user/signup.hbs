@@ -1,30 +1,54 @@
-<div class="container">
+
+<div class="container margin-top-nav">
     <div class="row">
         <div class="col-12">
-            <form action="/user/signup" method="POST">
-                <p>{{errmsg}}</p>
-                <p>{{formmsg}}</p>
-                <div>
-                    <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+            <h1 class="h2">Sign up</h1>
+            <hr>
+            <div class="row">
+                <div class="col-12 offset-sm-2 col-sm-8">
+
+                    <form action="/user/signup" method="POST" novalidate>
+                        <p class="text-danger">{{errmsg}}</p>
+                        {{#if formmsg}}
+                            <p class="text-success">{{formmsg}}</p>
+                        {{/if}}
+
+                        <ul>
+                            {{#each errMessage}}
+                                <li class="text-danger">{{msg}}</li>
+                            {{/each}}
+                        </ul>
+
+                        <div>
+                            <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+                        </div>
+                        <div>
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" name="email" id="email" value="{{email}}" class="form-control {{errorFieldClassname errMessage 'email'}}" placeholder="Email" autocomplete="off" autofocus>
+                        </div>
+                        <div>
+                            <label for="password" class="form-label">Password:</label>
+                            <input type="password" name="password" id="password" class="form-control {{errorFieldClassname errMessage 'password'}}" placeholder="password" autocomplete="off">
+                        </div>
+                        <div>
+                            <label for="confirmPassword" class="form-label">Confirm Password:</label>
+                            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control {{errorFieldClassname errMessage 'password'}}" placeholder="Confirm password" autocomplete="off">
+                        </div>
+                        <div>
+                            <label for="name" class="form-label">Name:</label>
+                            <input type="text" name="name" id="name" value="{{name}}" class="form-control {{errorFieldClassname errMessage 'name'}}" placeholder="Name">
+                        </div>
+                        <div>
+                            <label for="surname" class="form-label">Surname:</label>
+                            <input type="text" name="surname" id="surname" value="{{surname}}" class="form-control {{errorFieldClassname errMessage 'surname'}}" placeholder="Surname">
+                        </div>
+                        <div>
+                            <input type="submit" value="Sign up" class="btn btn-success">
+                        </div>
+                    </form>
+
                 </div>
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" placeholder="Email" autocomplete="off">
-                </div>
-                <div>
-                    <label for="password">Password:</label>
-                    <input type="password" name="password" id="password" autocomplete="off">
-                </div>
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" name="name" id="name">
-                </div>
-                <div>
-                    <label for="surname">Surname:</label>
-                    <input type="text" name="surname" id="surname">
-                </div>
-                <input type="submit" value="Signup">
-            </form>
+            </div>
         </div>
     </div>
 </div>

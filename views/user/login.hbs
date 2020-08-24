@@ -1,28 +1,40 @@
+
 <div class="container margin-top-nav">
     <div class="row">
         <div class="col-12">
+            <div class="row">
+                <main class="col-12">
+                    <h1 class="h2">Login</h1>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12 offset-sm-3 col-sm-6">
 
-            <main class="col-12">
-                <h1 class="h2">Login</h1>
-                <hr>
-                <form method="POST">
-                    <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+                            {{#if errMessage}}
+                                <p class="text-danger">{{errMessage}}</p>
+                            {{/if}}
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" name="email" id="email" class="form-control" aria-describedby="emailHelp">
+                            <form method="POST" novalidate>
+                                <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
+
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email address</label>
+                                    <input type="email" name="email" id="email" class="form-control" aria-describedby="emailHelp" autofocus>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" name="password" class="form-control" id="password">
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                                </div>
+                                <button type="submit" class="btn btn-warning">Login</button>
+                            </form>
+
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control" id="password">
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                    </div>
-                    <button type="submit" class="btn btn-warning">Login</button>
-                </form>
-            </main>
+                </main>
+            </div>
         </div>
     </div>
 </div>

@@ -30,6 +30,12 @@ app.engine('hbs', handlebars({
         },
         formatIndex: function(value){
             return value + 1;
+        },
+        errorFieldClassname: function(value, field){
+            if(value === undefined || value === null) return '';
+
+            var errorField = value.find(x => x.param == field);
+            return errorField !== undefined ? 'is-invalid' : '';
         }
     }
 }));

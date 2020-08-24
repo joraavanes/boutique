@@ -12,8 +12,8 @@ module.exports = {
         secure: false,
         port: 587,
         auth:{
-            user: 'onlinesales.shm@gmail.com',
-            pass: 'Shahin@11866'
+            user: 'jora.dust@gmail.com',
+            pass: 'europe@2018'
         }        
     })
 };
