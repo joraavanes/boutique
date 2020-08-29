@@ -13,7 +13,7 @@
                                 <p class="text-danger">{{errMessage}}</p>
                             {{/if}}
 
-                            <form method="POST" novalidate>
+                            <form action="/user/login" method="POST" novalidate>
                                 <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
 
                                 <div class="mb-3">

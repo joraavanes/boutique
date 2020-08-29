@@ -3,6 +3,8 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const {body} = require('express-validator');
 
+router.get('/', userController.getLogin);
+
 router.get('/login', userController.getLogin);
 
 router.post('/login', [body('email').isEmail().normalizeEmail(), body('password').notEmpty()], userController.postLogin);
@@ -27,7 +29,7 @@ router.post(
             }else{
                 return value;
             }}),
-        body('name').notEmpty().withMessage('Please type your name(atleast 3 characters)').isLength({min: 3})
+        body('name').isLength({min: 3}).withMessage('Please type your name(atleast 3 characters)')
     ],
      userController.postSignup);
 

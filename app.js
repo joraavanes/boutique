@@ -36,6 +36,9 @@ app.engine('hbs', handlebars({
 
             var errorField = value.find(x => x.param == field);
             return errorField !== undefined ? 'is-invalid' : '';
+        },
+        activeMenuItem: function(viewName, currentView){
+            return viewName === currentView ? 'active' : '';
         }
     }
 }));
@@ -51,11 +54,12 @@ const sessionStore = new SessionStore({
 });
 
 app.use(session({
+    name: 'user.session',
     secret: 'SUPERSECRETKEY!',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 3600000 // expires within 60 minutes (1800000ms)
+        maxAge: 3600000 * 5 // expires within 5 hours (1800000ms)
     },
     store: sessionStore
 }));

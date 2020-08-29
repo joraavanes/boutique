@@ -7,13 +7,14 @@
   "license": "MIT",
   "scripts": {
     "start": "node app.js",
-    "dev": "start http://localhost:3000 & nodemon app.js --verbose"
+    "dev": "start http://localhost:3000 & cross-env NODE_ENV=development nodemon app.js --verbose"
   },
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.3",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "connect-mongodb-session": "^2.3.3",
+    "cross-env": "^7.0.2",
     "csurf": "^1.11.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

@@ -1,15 +1,16 @@
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 
-exports.products = (req, res, next) => {
+exports.dashboard = (req, res, next) => {
     Product.find()
         .then(products => {
-            res.render('admin/products', {
-                products
+            res.render('admin/dashboard', {
+                products,
+                barChartData: [12, 19, 3, 5, 2, 3]
             });
         }) 
         .catch(err => {
-            console.log(err);    
+            console.log(err);
         });
 };
 

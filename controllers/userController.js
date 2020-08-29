@@ -63,7 +63,7 @@ exports.postSignup = (req, res, next) => {
 
             res.render('user/signup', {formmsg: result});
 
-            return gmailTransporter.sendMail({
+            /* return*/ gmailTransporter.sendMail({
                 to: email,
                 from: 'onlinesales.shm@gmail.com',
                 subject: 'Sign up succeeded',
@@ -71,13 +71,15 @@ exports.postSignup = (req, res, next) => {
                         <p>Welcome ${name} ${surname} to your boutique store. You can login through this <a href="localhost:3000/user/login">link</a></p>.`
             });
         })
-        .then(mail => console.log(mail))
+        // .then(mail => console.log(mail))
         .catch(err => {
             res.render('user/signup', {
                 errmsg: err,
+                email,
                 name,
                 surname
             });
+            // throw new Error(err);
         });
 };
 

@@ -1,14 +1,22 @@
 const express = require('express');
+const {body} = require('express-validator');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
 
-router.get('/', adminController.products);
+router.get('/', adminController.dashboard);
 
 // GET: /admin/products
-router.get('/products', adminController.products);
+router.get('/dashboard', adminController.dashboard);
 
 // GET: /admin/new-product
-router.get('/products/new-product', adminController.getNewProduct);
+router.get(
+    '/products/new-product',
+    [
+        body('title').notEmpty().withMessage('Please type the product name'),
+        body('description').notEmpty().withMessage('Please type description'),
+        body('price').notEmpty().toFloat().withMessage('Please type description'),
+    ],
+    adminController.getNewProduct);
 
 // POST: /admin/products/new-product
 router.post('/products/new-product', adminController.postNewProduct);
