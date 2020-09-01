@@ -85,17 +85,23 @@ app.get('/', (req, res, next) => {
         .populate('cart.items.productId')
         .execPopulate()
         .then(result => {
-            
+
             res.render('home/home', {
                 pageTitle: 'Boutique',
                 items: req.user.cart.items
             });
-        });
+        })
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+        });;
 });
 
-app.use((req, res, next) => {
-    res.send('404 ... the page your are looking for doesn\'t exist');
-});
+// app.use('', require('./routes/errorRoutes'));
+
+app.use(require('./controllers/errorController').get404);
+app.use(require('./controllers/errorController').getServerError);
 
 mongoose.Promise = global.Promise;
 mongoose.connect(connectionString, options)

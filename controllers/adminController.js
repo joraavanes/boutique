@@ -3,6 +3,7 @@ const Category = require('../models/Category');
 
 exports.dashboard = (req, res, next) => {
     Product.find()
+        .sort({issuedDate: -1})
         .then(products => {
             res.render('admin/dashboard', {
                 products,
@@ -37,11 +38,11 @@ exports.postNewProduct = (req, res, next) => {
             return product.save()
         })
         .then(doc => {
-            res.redirect('/admin/products');
+            res.redirect('/admin/dashboard');
         })
         .catch(err => {
             console.log(err);
-            return res.redirect('/admin/products');
+            return res.redirect('/admin/dashboard');
         });
 };
 
@@ -57,28 +58,33 @@ exports.getEditProduct = (req, res, next) => {
             });
         })
         .catch((err) => {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
         });
 
 };
 
 exports.postEditProduct = (req, res, next) => {
-    const {_id, title, description, price, show} = req.body;
+    const {_id, title, description, price, show, issuedDate} = req.body;
 
     Product.findById(_id)
         .then(product => {
             product.title = title;
             product.description = description;
             product.price = price;
+            product.issuedDate = issuedDate ? issuedDate : new Date().getTime(),
             product.show = show === 'on' ? true : false;
 
             return product.save();
         })
         .then(result => {
-            return res.redirect('/admin/products');
+            return res.redirect('/admin/dashboard');
         })
         .catch(err => {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
         });
 
 };
@@ -88,11 +94,12 @@ exports.postDeleteProduct = (req, res, next) => {
 
     Product.findByIdAndDelete(_id)
         .then(product => {
-            console.log('product deleted');
-            return res.redirect('/admin/products');
+            return res.redirect('/admin/dashboard');
         })
         .catch(err => {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
         });
 };
 
