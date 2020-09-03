@@ -59,6 +59,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
+        path: '/',
+        httpOnly: true,
         maxAge: 3600000 * 5 // expires within 5 hours (1800000ms)
     },
     store: sessionStore

@@ -1,15 +1,25 @@
 const Product = require('../models/Product');
+const User = require('../models/User');
 const Category = require('../models/Category');
 
 exports.dashboard = (req, res, next) => {
+    let model = {};
+
     Product.find()
+        .limit(10)
         .sort({issuedDate: -1})
         .then(products => {
-            res.render('admin/dashboard', {
+            model = {
                 products,
                 barChartData: [12, 19, 3, 5, 2, 3]
-            });
-        }) 
+            };
+            return User.find();
+        })
+        .then(users => {
+            model.users = users;
+
+            res.render('admin/dashboard', model);
+        })
         .catch(err => {
             console.log(err);
         });

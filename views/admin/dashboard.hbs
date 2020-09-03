@@ -47,10 +47,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col">                
+        <div class="col-12 col-md-8">                
                 <div class="clearfix margin-top-nav">
                     <h2 class="float-left">Products</h2>
                     <a class="btn btn-success btn-sm float-right" href="/admin/products/new-product">Add new Product</a>
+                    
                 </div>
                 <hr>
 
@@ -59,22 +60,22 @@
                         <tr>
                         <th scope="col">#</th>
                         <th scope="col">title</th>
-                        <th scope="col">Description</th>
+                        <th scope="col" style="max-width: 300px;">Description</th>
                         <th scope="col">Price</th>
                         <th scope="col">show</th>
-                        <th scope="col">Edit & Delete</th>
+                        <th scope="col" style="width: 130px">Edit & Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{#each products}}
                             <tr>
                                 <th scope="row">{{formatIndex @index}}</th>
-                                <td>{{this.title}}</td>
-                                <td>{{this.description}}</td>
-                                <td>{{this.price}}</td>
-                                <td>{{this.show}}</td>
+                                <td><p class="line-clamp" title="{{title}}">{{title}}</p></td>
+                                <td><p class="line-clamp" title="{{description}}">{{description}}</p></td>
+                                <td>{{price}}</td>
+                                <td>{{show}}</td>
                                 <td>
-                                    <a class="btn btn-warning btn-sm" href="/admin/products/edit-product/{{this._id}}">Edit</a>
+                                    <a class="btn btn-warning btn-sm" href="/admin/products/edit-product/{{_id}}">Edit</a>
                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-modal">Delete</button>
 
                                     {{!-- <form action="/admin/products/delete-product" method="POST" style="display: inline;">
@@ -87,7 +88,37 @@
                     </tbody>
                 </table>
 
+                <hr>
+
             <a class="btn btn-success btn-sm" href="/admin/products/new-product">Add new Product</a>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="clearfix margin-top-nav">
+                <h2 class="float-left">Users</h2>
+            </div>
+            <hr>
+
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each users}}
+                        <tr>
+                            <td>{{formatIndex @index}}</td>
+                            <td>{{email}}</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-warning">Details</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>
