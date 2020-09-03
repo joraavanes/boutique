@@ -1,3 +1,4 @@
+const {validationResult} = require('express-validator');
 const Product = require('../models/Product');
 const User = require('../models/User');
 const Category = require('../models/Category');
@@ -32,6 +33,17 @@ exports.getNewProduct = (req, res, next) => {
 
 exports.postNewProduct = (req, res, next) => {
     const {title, description, price, show} = req.body;
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.render('admin/new-product', {
+            errMessages: errors.array(),
+            title,
+            description,
+            price: price ? price : undefined,
+            show: show === 'on' ? 'checked' : ''
+        });
+    }
 
     const product = new Product({
         title,
@@ -77,6 +89,20 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => {
     const {_id, title, description, price, show, issuedDate} = req.body;
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.render('admin/edit-product', {
+            errMessages: errors.array(),
+            product: {
+                _id,
+                title,
+                description,
+                price: price ? price : undefined,
+                show: show === 'on' ? true : false,
+                issuedDate}
+        });
+    }
 
     Product.findById(_id)
         .then(product => {

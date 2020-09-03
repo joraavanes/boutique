@@ -16,6 +16,13 @@
     <div class="row">
         <div class="col-12 col-sm-6">
             <h2>Edit Product {{product.title}}</h2>
+            {{#if errMessages}}
+                <ul>
+                    {{#each errMessages}}
+                        <li class="text-danger">{{msg}}</li>
+                    {{/each}}
+                </ul>
+            {{/if}}
             <form action="/admin/products/edit-product" method="POST" enctype="application/x-www-form-urlencoded">
                 <div>
                     <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
