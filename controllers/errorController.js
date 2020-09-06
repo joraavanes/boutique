@@ -4,5 +4,6 @@ exports.get404 = (req, res, next) => {
 };
 
 exports.getServerError = (err, req, res, next) => {
-    res.status(err.httpStatusCode).render('error/500');
+    const errorCode = err.httpStatusCode || 500;
+    res.status(errorCode).render('error/500');
 };

@@ -23,7 +23,7 @@
                     {{/each}}
                 </ul>
             {{/if}}
-            <form method="POST" enctype="application/x-www-form-urlencoded">
+            <form method="POST" enctype="multipart/form-data" novalidate>
                 <div>
                     <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
                 </div>
@@ -34,6 +34,10 @@
                 <div>
                     <label for="description" class="form-title">Description</label>
                     <input type="text" name="description" id="description" class="form-control" value="{{description}}"/>
+                </div>
+                <div class="mt-3">
+                    <label for="imageUrl" class="form-title">Image</label>
+                    <input type="file" name="imageUrl" id="imageUrl">
                 </div>
                 <div>
                     <label for="price" class="form-title">Price</label>

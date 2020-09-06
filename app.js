@@ -6,19 +6,19 @@ const handlebars = require('express-handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 const session = require('express-session');
 const SessionStore = require('connect-mongodb-session')(session);
-const csrf = require('csurf');
 const {config} = require('dotenv');
 const helmet = require('helmet');
 const colors = require('colors');
 
 const authorize = require('./middleware/authorize');
+require('./utils/lib');
 
 config({ path: './config/config.env'});
 
 const {connectionString, localDatabase, options} = require('./db/db');
 const port = process.env.PORT || 3000;
 
-const app = express();
+const app = module.exports = express();
 
 // View engine setup
 app.engine('hbs', handlebars({
@@ -39,6 +39,14 @@ app.engine('hbs', handlebars({
         },
         activeMenuItem: function(viewName, currentView){
             return viewName === currentView ? 'active' : '';
+        },
+        getImageAbsolutePath: function(imageUrl){
+            if(imageUrl) return imageUrl.substr(6,imageUrl.length).replaceAll('\\', '/');
+            
+            return imageUrl;
+        },
+        addCommos: function(price){
+            return price.toLocaleString();
         }
     }
 }));
@@ -67,9 +75,26 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
-app.use(csrf());
-app.use(require('./middleware/csrfTokens'));
-
+// app.use(multer({
+//         storage: multer.diskStorage({
+//             destination: (req, file, callback) => {
+//                 callback(null, 'public/userFiles');
+//             },
+//             filename: (req, file, callback) => {
+//                 callback(null, `${new Date().getTime()}-${file.originalname}`);
+//             }
+//         }),
+//         fileFilter: (req, file, callback) => {
+//             console.log(file);
+//             if(file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg')
+//                 callback(null, true);
+//             else
+//                 callback(null, false);
+//         }
+//     })
+//     .single('imageUrl'));
+// app.use(csrf());
+// app.use(require('./middleware/csrfTokens'));
 app.use(require('./middleware/currentUser'));
 app.use(require('./middleware/checkAuth'));
 

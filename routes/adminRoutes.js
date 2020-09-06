@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const csrf = require('csurf');
 const {body} = require('express-validator');
 const {ObjectId} = require('mongodb');
 const adminController = require('../controllers/adminController');
@@ -10,24 +12,69 @@ router.get('/', adminController.dashboard);
 router.get('/dashboard', adminController.dashboard);
 
 // GET: /admin/new-product
-router.get('/products/new-product',adminController.getNewProduct);
+router.get('/products/new-product',
+            csrf(),
+            require('../middleware/csrfTokens'),
+            adminController.getNewProduct);
 
 // POST: /admin/products/new-product
 router.post(
     '/products/new-product',
+    multer({
+            storage: multer.diskStorage({
+            destination: (req, file, callback) => {
+                    callback(null, 'public/user-files');
+            },
+            filename: (req, file, callback) => {
+                    callback(null, `${new Date().getTime()}-${file.originalname}`);
+            },
+            fileFilter: (req, file, callback) => {
+                if(file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg')
+                    callback(null, true);
+                else
+                    callback(null, false);
+            },
+        })
+    }).single('imageUrl'),
+    csrf(),
+    require('../middleware/csrfTokens'),
     [
-        body('title').notEmpty().withMessage('Please type the product name'),
+        body('title').notEmpty().withMessage('Please type the product title'),
+        body('title').isLength({min: 5, max: 25}).withMessage('Title should be between 5 and 25 characters length'),
         body('description').notEmpty().withMessage('Please type description'),
+        body('description').isLength({min: 5}).withMessage('Description should be atleast 5 characters'),
         body('price').notEmpty().toFloat().withMessage('Please enter price')
     ],
-    adminController.postNewProduct);
+    adminController.postNewProduct
+);
 
 // GET: /admin/products/edit-product
-router.get('/products/edit-product/:_id', adminController.getEditProduct);
+router.get('/products/edit-product/:_id',
+            csrf(),
+            require('../middleware/csrfTokens'),
+            adminController.getEditProduct);
 
 // POST: /admin/products/edit-product
 router.post(
     '/products/edit-product',
+    multer({
+            storage: multer.diskStorage({
+            destination: (req, file, callback) => {
+                    callback(null, 'public/user-files');
+            },
+            filename: (req, file, callback) => {
+                    callback(null, `${new Date().getTime()}-${file.originalname}`);
+            },
+            fileFilter: (req, file, callback) => {
+                if(file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg')
+                    callback(null, true);
+                else
+                    callback(null, false);
+            },
+        })
+    }).single('imageUrl'),
+    csrf(),
+    require('../middleware/csrfTokens'),
     [
         body('_id').custom((value, meta) => {
             if(value == undefined || value == null || value == '') throw new Error('Product id is invalid');
@@ -36,11 +83,12 @@ router.post(
 
             return value;
         }),
-        body('title').notEmpty().withMessage('Please type the product name'),
-        body('description').notEmpty().withMessage('Please type description'),
+        body('title').notEmpty().isLength({min: 5, max: 25}).withMessage('Please type the product name, minimum of 5 chars'),
+        body('description').notEmpty().isLength({min: 5}).withMessage('Please type description'),
         body('price').notEmpty().toFloat().withMessage('Please enter price')
     ],
-    adminController.postEditProduct);
+    adminController.postEditProduct
+);
 
 // POST: /admin/products/delete-product
 router.post('/products/delete-product/', adminController.postDeleteProduct);

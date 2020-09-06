@@ -33,11 +33,18 @@ exports.getNewProduct = (req, res, next) => {
 
 exports.postNewProduct = (req, res, next) => {
     const {title, description, price, show} = req.body;
+    const image = req.file;
 
     const errors = validationResult(req);
-    if(!errors.isEmpty()){
+    const errorsList = errors.array();
+
+    if(!image){
+        errorsList.push({param: 'imageUrl', msg: 'Please upload product image'});
+    }
+
+    if(errorsList.length != 0){
         return res.render('admin/new-product', {
-            errMessages: errors.array(),
+            errMessages: errorsList,
             title,
             description,
             price: price ? price : undefined,
@@ -49,6 +56,7 @@ exports.postNewProduct = (req, res, next) => {
         title,
         description,
         price,
+        imageUrl: image.path, 
         issuedDate: new Date().valueOf(),
         show: show === 'on'? true : false,
         userId: req.user
@@ -89,6 +97,7 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => {
     const {_id, title, description, price, show, issuedDate} = req.body;
+    const image = req.file;
 
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -108,6 +117,9 @@ exports.postEditProduct = (req, res, next) => {
         .then(product => {
             product.title = title;
             product.description = description;
+            if(image){
+                product.imageUrl = image.path;
+            }
             product.price = price;
             product.issuedDate = issuedDate ? issuedDate : new Date().getTime(),
             product.show = show === 'on' ? true : false;
