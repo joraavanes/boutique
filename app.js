@@ -103,6 +103,7 @@ app.use('/admin', authorize, require('./routes/adminRoutes'));
 app.use('/shop', authorize, require('./routes/shopRoutes'));
 app.use('/user', require('./routes/userRoutes'));
 app.use('/products', require('./routes/productRoutes'));
+app.use('/admin/userManager', require('./routes/admin/userManagerRoutes'));
 
 app.get('/', (req, res, next) => {
     console.log(colors.cyan(req.session));
