@@ -1,3 +1,5 @@
+const path = require('path');
+const fs = require('fs');
 const {ObjectId} = require('mongodb');
 const Product = require('../models/Product');
 const User = require('../models/User');
@@ -101,3 +103,28 @@ exports.postOrder = (req, res, next) => {
             return next(error);
         });
 };
+
+exports.getPdfInvoice = ((req, res, next) => {
+    const {orderId} = req.params;
+
+    Order.findById(orderId)
+        .then(order => {
+
+            if(!order) throw new Error('Order does not exist');
+
+            if(order.user.userId.toString() !== req.user._id.toString()){
+                throw new Error('You are not authorized to access the file');
+            }
+
+            const invoicePath = path.join('userDocs', req.user.email, orderId + '.pdf');
+            fs.readFile(invoicePath, (err, data) => {
+                if(err) return next(err);
+
+                res.setHeader('Content-Type', 'application/pdf');
+                res.setHeader('Content-Disposition', `attachment; filename=${orderId}.pdf`);
+                res.send(data);
+            });
+
+        })
+        .catch(err => next(err));
+});

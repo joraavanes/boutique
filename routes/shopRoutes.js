@@ -20,4 +20,7 @@ router.get('/orders', shopController.getOrders);
 // POST: /shop/order
 router.post('/order', shopController.postOrder);
 
+// GET: /shop/order/pdf/:orderId
+router.get('/order/pdf/:orderId', shopController.getPdfInvoice);
+
 module.exports = router;
