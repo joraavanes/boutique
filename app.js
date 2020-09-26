@@ -106,7 +106,7 @@ app.use('/products', require('./routes/productRoutes'));
 app.use('/admin/userManager', require('./routes/admin/userManagerRoutes'));
 
 app.get('/', (req, res, next) => {
-    console.log(colors.cyan(req.session));
+    console.log(colors.cyan(req.session));    
     if(!req.user) return res.render('home/home');
 
     req.user

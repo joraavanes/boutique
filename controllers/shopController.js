@@ -1,6 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 const {ObjectId} = require('mongodb');
+const PdfKit = require('pdfkit');
+
 const Product = require('../models/Product');
 const User = require('../models/User');
 const Order = require('../models/Order');
@@ -104,9 +106,9 @@ exports.postOrder = (req, res, next) => {
         });
 };
 
-exports.getPdfInvoice = ((req, res, next) => {
+exports.getPdfInvoice = (req, res, next) => {
     const {orderId} = req.params;
-
+    
     Order.findById(orderId)
         .then(order => {
 
@@ -117,14 +119,39 @@ exports.getPdfInvoice = ((req, res, next) => {
             }
 
             const invoicePath = path.join('userDocs', req.user.email, orderId + '.pdf');
-            fs.readFile(invoicePath, (err, data) => {
-                if(err) return next(err);
+            // fs.readFile(invoicePath, (err, data) => {
+            //     if(err) return next(err);
 
-                res.setHeader('Content-Type', 'application/pdf');
-                res.setHeader('Content-Disposition', `attachment; filename=${orderId}.pdf`);
-                res.send(data);
+            //     res.setHeader('Content-Type', 'application/pdf');
+            //     res.setHeader('Content-Disposition', `attachment; filename=${orderId}.pdf`);
+            //     res.send(data);
+            // });
+
+            const pdfKit = new PdfKit();
+            pdfKit.fontSize(18);
+            pdfKit.text(`invoice - ${orderId}`);
+            pdfKit.moveDown();
+            pdfKit.lineCap('butt')
+                    .moveTo(60, 90)
+                    .lineTo(550, 90)
+                    .stroke();
+
+            pdfKit.fontSize(12);
+            order.items.forEach((item, i) => {
+                pdfKit.text(`${i + 1} - ${item.product.title} - ${item.product.price}`);
             });
+            pdfKit.end();
+
+            pdfKit.pipe(fs.createWriteStream(invoicePath));
+
+            // const invoiceStream = fs.createReadStream(invoicePath)
+
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `inline; filename=${orderId}.pdf`);
+
+            // invoiceStream.pipe(res);
+            pdfKit.pipe(res);
 
         })
         .catch(err => next(err));
-});
+};
