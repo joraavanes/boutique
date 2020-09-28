@@ -11,6 +11,7 @@ const helmet = require('helmet');
 const colors = require('colors');
 
 const authorize = require('./middleware/authorize');
+const Slide = require('./models/Slide');
 require('./utils/lib');
 
 config({ path: './config/config.env'});
@@ -104,20 +105,26 @@ app.use('/shop', authorize, require('./routes/shopRoutes'));
 app.use('/user', require('./routes/userRoutes'));
 app.use('/products', require('./routes/productRoutes'));
 app.use('/admin/userManager', require('./routes/admin/userManagerRoutes'));
+app.use('/admin/slideManager', require('./routes/admin/slideManagerRoutes'));
 
 app.get('/', (req, res, next) => {
     console.log(colors.cyan(req.session));
     if(!req.user) return res.render('home/home');
 
+    let viewData;
     req.user
         .populate('cart.items.productId')
         .execPopulate()
         .then(result => {
-
-            res.render('home/home', {
+            viewData = {
                 pageTitle: 'Boutique',
                 items: req.user.cart.items
-            });
+            };
+            return Slide.find({shown: true});
+        })
+        .then(slides => {
+            viewData.slides = slides;            
+            return res.render('home/home', viewData);            
         })
         .catch(err => {
             const error = new Error(err);

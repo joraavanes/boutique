@@ -21,7 +21,7 @@ router.get('/products/new-product',
 router.post(
     '/products/new-product',
     multer({
-            storage: multer.diskStorage({
+        storage: multer.diskStorage({
             destination: (req, file, callback) => {
                     callback(null, 'public/user-files');
             },
