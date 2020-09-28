@@ -100,41 +100,13 @@ app.use(require('./middleware/currentUser'));
 app.use(require('./middleware/checkAuth'));
 
 // Routes
+app.use(require('./routes/homeRoutes'));
 app.use('/admin', authorize, require('./routes/adminRoutes'));
 app.use('/shop', authorize, require('./routes/shopRoutes'));
 app.use('/user', require('./routes/userRoutes'));
 app.use('/products', require('./routes/productRoutes'));
 app.use('/admin/userManager', require('./routes/admin/userManagerRoutes'));
 app.use('/admin/slideManager', require('./routes/admin/slideManagerRoutes'));
-
-app.get('/', (req, res, next) => {
-    console.log(colors.cyan(req.session));
-    if(!req.user) return res.render('home/home');
-
-    let viewData;
-    req.user
-        .populate('cart.items.productId')
-        .execPopulate()
-        .then(result => {
-            viewData = {
-                pageTitle: 'Boutique',
-                items: req.user.cart.items
-            };
-            return Slide.find({shown: true});
-        })
-        .then(slides => {
-            viewData.slides = slides;            
-            return res.render('home/home', viewData);            
-        })
-        .catch(err => {
-            const error = new Error(err);
-            error.httpStatusCode = 500;
-            return next(error);
-        });;
-});
-
-// app.use('', require('./routes/errorRoutes'));
-
 app.use(require('./controllers/errorController').get404);
 app.use(require('./controllers/errorController').getServerError);
 
