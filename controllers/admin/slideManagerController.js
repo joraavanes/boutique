@@ -30,12 +30,11 @@ exports.postNewSlide = (req, res, next) => {
         hyperlink,
         imgUrl: image.path,
         shown: shown == 'on' ? true : false,
-        order: 1});
+        order: 1
+    });
 
     slide.save()
         .then(result => {
-            console.log(result);
-
             res.redirect('/admin/slideManager/');
         })
         .catch(err=> {
@@ -64,8 +63,6 @@ exports.postEditSlide = (req, res, next) => {
     const {_id, title, hyperlink, shown} = req.body;
     const image = req.file;
 
-    console.log(title, hyperlink, shown);
-    
     const updatedSlide = {
             title,
             hyperlink,
@@ -81,9 +78,6 @@ exports.postEditSlide = (req, res, next) => {
         updatedSlide,
         {new: false})
         .then(slide => {
-            console.log(slide);
-
-            //todo: delete old image if new is uploaded
             if(image){
                 removeFile(slide.imgUrl);
             }

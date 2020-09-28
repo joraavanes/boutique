@@ -1,17 +1,17 @@
 <div class="container">
     <div class="row">
-        <div class="col-12">
             {{#each products}}
-                <div>
-                    <h2>{{title}}</h2>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <h2>
+                        <a href="/products/{{_id}}">{{title}}</a>
+                    </h2>
                     <p>{{description}}</p>
-                    <img src="{{getImageAbsolutePath imageUrl}}" alt="{{title}}" class="d-block img-fluid" style="max-width:50%;">
+                    <img src="{{getImageAbsolutePath imageUrl}}" alt="{{title}}" class="d-block img-fluid">
                     <p>{{addCommos price}}</p>
                     <p>{{formatDate issuedDate}}</p>
                     <a href="/products/{{_id}}">Details</a>
                     <hr>
                 </div>
             {{/each}}
-        </div>
     </div>
 </div>

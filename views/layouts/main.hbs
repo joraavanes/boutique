@@ -23,6 +23,17 @@
                         <li class="nav-item">
                             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                         </li>
+                        {{#if auth}}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                                    Shop
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/shop/cart" class="dropdown-item">Cart</a></li>
+                                    <li><a href="/shop/orders" class="dropdown-item">Orders</a></li>
+                                </ul>                                
+                            </li>
+                        {{/if}}
                     </ul>
                     <form class="d-flex">
                         <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
