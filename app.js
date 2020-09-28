@@ -11,7 +11,6 @@ const helmet = require('helmet');
 const colors = require('colors');
 
 const authorize = require('./middleware/authorize');
-const Slide = require('./models/Slide');
 require('./utils/lib');
 
 config({ path: './config/config.env'});

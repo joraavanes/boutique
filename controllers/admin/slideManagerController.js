@@ -1,4 +1,5 @@
 const Slide = require('../../models/Slide');
+const { removeFile } = require('../../utils/lib');
 
 exports.getSlides = (req, res, next) => {
     Slide.find()
@@ -42,6 +43,58 @@ exports.postNewSlide = (req, res, next) => {
             return next(error);
         });
 };
-exports.getEditSlide = (req, res, next) => {};
-exports.postEditSlide = (req, res, next) => {};
+
+exports.getEditSlide = (req, res, next) => {
+    const {_id} = req.params;
+
+    Slide.findById(_id)
+        .then(slide => {
+            res.render('admin/slideManager/edit-slide', {
+                pageTitle: slide.title,
+                slide
+            });
+        })
+        .catch((err) => {
+            const error = new Error(err);
+            return next(error);
+        });
+};
+
+exports.postEditSlide = (req, res, next) => {
+    const {_id, title, hyperlink, shown} = req.body;
+    const image = req.file;
+
+    console.log(title, hyperlink, shown);
+    
+    const updatedSlide = {
+            title,
+            hyperlink,
+            shown: shown == 'on' ? true : false
+        };
+
+    if(image){
+        updatedSlide.imgUrl = image.path;
+    }    
+
+    Slide.findOneAndUpdate(
+        {_id},
+        updatedSlide,
+        {new: false})
+        .then(slide => {
+            console.log(slide);
+
+            //todo: delete old image if new is uploaded
+            if(image){
+                removeFile(slide.imgUrl);
+            }
+
+            res.redirect('/admin/slideManager');
+        })
+        .catch(err => {
+            const error = new Error(err);
+            return next(error);
+        });
+
+};
+
 exports.postDeleteSlide = (req, res, next) => {};
