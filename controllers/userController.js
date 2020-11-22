@@ -141,7 +141,9 @@ exports.postNewPassword = (req, res, next) => {
         })
         .then(user => {
             
-            res.send('User password updated');
+            res.render('user/newPassword', {
+                message: 'Your new password has been successfully submitted. Log in to your <a href="/user/login">account</a>.'
+            });
         })
         .catch(err => {
             res.render('user/newPassword', {errmsg: 'Something went wrong'});

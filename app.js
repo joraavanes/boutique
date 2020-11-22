@@ -10,7 +10,7 @@ const {config} = require('dotenv');
 const helmet = require('helmet');
 const colors = require('colors');
 
-const authorize = require('./middleware/authorize');
+const authenticate = require('./middleware/authenticate');
 require('./utils/lib');
 
 config({ path: './config/config.env'});
@@ -100,8 +100,8 @@ app.use(require('./middleware/checkAuth'));
 
 // Routes
 app.use(require('./routes/homeRoutes'));
-app.use('/admin', authorize, require('./routes/adminRoutes'));
-app.use('/shop', authorize, require('./routes/shopRoutes'));
+app.use('/admin', authenticate, require('./routes/adminRoutes'));
+app.use('/shop', authenticate, require('./routes/shopRoutes'));
 app.use('/user', require('./routes/userRoutes'));
 app.use('/products', require('./routes/productRoutes'));
 app.use('/admin/userManager', require('./routes/admin/userManagerRoutes'));
