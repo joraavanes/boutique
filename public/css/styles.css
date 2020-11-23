@@ -28,6 +28,18 @@ html,body{
     text-overflow: ellipsis;
     overflow: hidden;
 }
+.ti-1{
+    text-indent: 25px;
+}
+.ti-2{
+    text-indent: 35px;
+}
+.user-icon{
+    background: url('/files/user.svg') 2% center no-repeat;
+}
+.password-icon{
+    background: url('/files/lock.svg') 2% center no-repeat;
+}
 
 @media screen and (min-width: 992px){
     .nav-item.dropdown:hover .dropdown-menu{

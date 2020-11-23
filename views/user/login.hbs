@@ -8,31 +8,34 @@
     </div>
 
     <div class="row">
-        <div class="col-12 offset-sm-2 col-sm-8 offset-md-3 col-md-6">
+        <div class="col-12 offset-sm-2 col-sm-8 offset-md-3 col-md-6 mt-4">
 
             {{#if errMessage}}
-                <p class="text-danger">{{errMessage}}</p>
+                <p class="alert alert-danger">{{errMessage}}</p>
             {{/if}}
 
-            <form action="/user/login" method="POST" novalidate>
+            <form action="/user/login" method="POST" novalidate autocomplete="off">
                 <input type="hidden" name="_csrf" id="_csrf" value="{{_csrf}}">
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" name="email" id="email" class="form-control" aria-describedby="emailHelp" autofocus>
+                    <input type="email" name="email" id="email" class="form-control user-icon ti-2" aria-describedby="emailHelp" autofocus>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" id="password">
+                    <input type="password" name="password" class="form-control password-icon ti-2" id="password">
                 </div>
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Check me out</label>
                 </div>
-                <button type="submit" class="btn btn-warning">Login</button>
+                <button type="submit" class="btn btn-success">
+                    Login
+                    <img src="/files/log-in.svg">
+                </button>
             </form>
 
-            <hr>
+            <hr class="mt-5">
             <p>If you haven't had an account or wanted to revive your account, take this way:</p>
             <div class="justify-content-center d-flex">
                 <a href="/user/signup" class="btn btn-primary mr-1">Sign up</a>
@@ -42,3 +45,12 @@
         </div>
     </div>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        setTimeout(()=> {
+            document.querySelectorAll('input[type=email],input[type=password]').forEach(input => input.value = '');
+        }, 1000);
+    });
+
+</script>
