@@ -91,7 +91,7 @@ router.post(
 );
 
 // DELETE: /admin/products/delete-product
-router.delete('/products/delete-product/', adminController.postDeleteProduct);
+router.delete('/products/delete-product/', adminController.deleteProduct);
 
 router.get('/categories/new-category', adminController.getNewCategory);
 

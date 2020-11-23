@@ -12,8 +12,8 @@ String.prototype.replaceAll = function(find, reaplceWith){
 
 exports.removeFile = fileUrl => {
     fs.unlink(fileUrl, (err) => {
-        if(err) return false;
+        if(err) return Promise.reject('Failed file removal');
 
-        return true;
+        return Promise.resolve();
     });
 };

@@ -2,6 +2,7 @@ const {validationResult} = require('express-validator');
 const Product = require('../models/Product');
 const User = require('../models/User');
 const Category = require('../models/Category');
+const { removeFile } = require('../utils/lib');
 
 exports.dashboard = (req, res, next) => {
     let model = {};
@@ -137,19 +138,12 @@ exports.postEditProduct = (req, res, next) => {
 
 };
 
-exports.postDeleteProduct = (req, res, next) => {
+exports.deleteProduct = (req, res, next) => {
     const {productId} = req.body;
-    console.log(productId);
-
-    // setTimeout(() => {
-    //     res.status(200).send({result: 'success'});
-    // }, 3000);
 
     Product.findByIdAndDelete(productId)
-        .then(product => {
-            console.log(product);
-            return res.status(200).send();
-        })
+        .then(product => removeFile(product.imageUrl))
+        .then(() => res.status(200).send())
         .catch(err => {
             const error = new Error(err);
             error.httpStatusCode = 500;
