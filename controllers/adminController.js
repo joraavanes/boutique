@@ -138,11 +138,17 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.postDeleteProduct = (req, res, next) => {
-    const {_id} = req.body;
+    const {productId} = req.body;
+    console.log(productId);
 
-    Product.findByIdAndDelete(_id)
+    // setTimeout(() => {
+    //     res.status(200).send({result: 'success'});
+    // }, 3000);
+
+    Product.findByIdAndDelete(productId)
         .then(product => {
-            return res.redirect('/admin/dashboard');
+            console.log(product);
+            return res.status(200).send();
         })
         .catch(err => {
             const error = new Error(err);

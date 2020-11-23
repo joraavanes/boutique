@@ -86,12 +86,16 @@
                                     </td>
                                 <td>
                                     <a class="btn btn-warning btn-sm" href="/admin/products/edit-product/{{_id}}">Edit</a>
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-modal">Delete</button>
-
-                                    {{!-- <form action="/admin/products/delete-product" method="POST" style="display: inline;">
-                                        <input type="hidden" name="_id" id="_id" value={{this._id}}>
-                                        <input type="submit" value="Delete" class="btn btn-danger btn-sm">
-                                    </form>                 --}}
+                                    <button 
+                                        type="button"
+                                        class="btn btn-danger btn-sm"
+                                        data-toggle="modal"
+                                        data-target="#delete-modal"
+                                        data-product-id="{{_id}}"
+                                        data-title="{{title}}"
+                                    >
+                                        Delete
+                                    </button>
                                 </td>
                             </tr>    
                         {{/each}}
@@ -138,17 +142,24 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Product removal</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        ...
+        Are you going to remove the product?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Delete anyway</button>
+        <form action="/admin/products/delete-product" id="product-delete">
+            <input type="hidden" name="productId" id="productId">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger" id="deleteBtn">
+                <div class="spinner-border spinner-border-sm text-light d-none" id="spinner" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                Delete it anyway</button>
+        </form>
       </div>
     </div>
   </div>
@@ -156,80 +167,128 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var ctx2 = document.getElementById('myChart2').getContext('2d');
-    
-    setTimeout(
-        () => {
+    const doc = document;
+    doc.addEventListener('DOMContentLoaded', function(){
 
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: 'Top 10 best Selling products last 30 days',
-                    data: [ {{barChartData}} ],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.5)',
-                        'rgba(54, 162, 235, 0.5)',
-                        'rgba(255, 206, 86, 0.5)',
-                        'rgba(75, 192, 192, 0.5)',
-                        'rgba(153, 102, 255, 0.5)',
-                        'rgba(255, 159, 64, 0.5)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+        
+        setTimeout(() => {
+
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: 'Top 10 best Selling products last 30 days',
+                        data: [ {{barChartData}} ],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
                     }]
                 },
-                animation:{
-                    easing: 'easeOutBack',
-                    duration: 1000
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    animation:{
+                        easing: 'easeOutBack',
+                        duration: 1000
+                    }
                 }
-            }
+            });
+
+            var myDoughnutChart = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [25, 40, 35],
+                        backgroundColor: [
+                            '#900c3f',
+                            '#ff5733',
+                            '#ffc300',
+                        ],
+                        label: 'Dataset 1'
+                    }],
+
+                    // These labels appear in the legend and in the tooltips when hovering different arcs
+                    labels: [
+                        'iPhone earPods 25%',
+                        'hand sanitizer',
+                        'table clock'
+                    ]
+                },
+                options:{
+                    animation:{
+                        easing: 'easeOutBack',
+                        duration: 1000
+                    }
+                }
+            });
+
+        }, 600);
+
+        $('#delete-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var title = button.data('title') // Extract info from data-* attributes
+            var productId = button.data('product-id');
+            
+
+            var modal = $(this)
+            modal.find('.modal-title').text('Remove the product ' + title);
+            //modal.find('.modal-body input').val(recipient);
+            modal.find('#product-delete #productId').val(productId);
         });
 
-        var myDoughnutChart = new Chart(ctx2, {
-            type: 'doughnut',
-            data: {
-                datasets: [{
-                    data: [25, 40, 35],
-                    backgroundColor: [
-                        '#900c3f',
-                        '#ff5733',
-                        '#ffc300',
-                    ],
-                    label: 'Dataset 1'
-                }],
+        doc.querySelector('form#product-delete').addEventListener('submit', e => {
+            e.preventDefault();
+            const productId = e.target.elements.productId.value;
+            const deleteBtn = e.target.elements.deleteBtn;
+            const spinner = e.target.elements.deleteBtn.children.spinner;
+            
+            deleteBtn.classList.toggle('disabled');
+            spinner.classList.toggle('d-none');
 
-                // These labels appear in the legend and in the tooltips when hovering different arcs
-                labels: [
-                    'iPhone earPods 25%',
-                    'hand sanitizer',
-                    'table clock'
-                ]
-            },
-            options:{
-                animation:{
-                    easing: 'easeOutBack',
-                    duration: 1000
-                }
-            }
+            fetch('/admin/products/delete-product',{
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: 'jimbo',
+                    productId
+                })
+            })
+            .then(response => {
+
+                $('#delete-modal').modal('hide');
+                deleteBtn.classList.toggle('disabled');
+                spinner.classList.toggle('d-none');
+
+            })
+            .catch(err => {
+
+                deleteBtn.classList.toggle('disabled');
+                spinner.classList.toggle('d-none');
+            });
         });
-
-    }, 600)
+    });
 </script>

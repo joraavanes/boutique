@@ -55,6 +55,7 @@ app.set('views','views');
 
 // Middlewares
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const sessionStore = new SessionStore({
     uri: connectionString,
