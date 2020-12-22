@@ -32,6 +32,15 @@
                     <input type="text" name="title" id="title" class="form-control" value="{{title}}"/>
                 </div>
                 <div>
+                    <label for="Category" class="form-title">Category</label>
+                    <select name="categoryId" id="categoryId" class="form-control">
+                        <option selected disabled>Select a category</option>
+                        {{#each categoryList}}
+                            <option value="{{_id}}">{{title}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div>
                     <label for="description" class="form-title">Description</label>
                     <input type="text" name="description" id="description" class="form-control" value="{{description}}"/>
                 </div>

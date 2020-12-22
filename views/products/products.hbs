@@ -5,8 +5,13 @@
                     <h2>
                         <a href="/products/{{_id}}">{{title}}</a>
                     </h2>
-                    <p>{{description}}</p>
+                    <h5>
+                        <em>
+                            {{categoryId.title}}
+                        </em>
+                    </h5>
                     <img src="{{getImageAbsolutePath imageUrl}}" alt="{{title}}" class="d-block img-fluid">
+                    <p>{{description}}</p>
                     <p>{{addCommos price}}</p>
                     <p>{{formatDate issuedDate}}</p>
                     <a href="/products/{{_id}}">Details</a>

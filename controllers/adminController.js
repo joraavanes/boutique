@@ -29,11 +29,28 @@ exports.dashboard = (req, res, next) => {
 
 exports.getNewProduct = (req, res, next) => {
     // res.sendFile(path.join(__dirname, 'views/admin/new-product.html'));
-    res.render('admin/new-product');
+    Category.find()
+            .sort({title: -1})
+            .then(categories => {
+
+                const categoryList = categories.map(cat => {
+                    return{
+                        _id:cat._id,
+                        title: cat.title
+                    }
+                });
+
+                res.render('admin/new-product',{
+                    categoryList
+                });
+            })
+            .catch(err => {
+                return next(err);
+            });
 };
 
 exports.postNewProduct = (req, res, next) => {
-    const {title, description, price, show} = req.body;
+    const {title, description, price, show, categoryId} = req.body;
     const image = req.file;
 
     const errors = validationResult(req);
@@ -63,7 +80,7 @@ exports.postNewProduct = (req, res, next) => {
         userId: req.user
     });
 
-    Category.findOne()
+    Category.findById(categoryId)
         .then(category => {
             product.categoryId = category;
             return product.save()

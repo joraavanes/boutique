@@ -27,7 +27,9 @@ exports.getProduct = (req, res, next) => {
 exports.getProducts = (req, res, next) => {
 
     Product.find({show: true})
+        .populate('categoryId')
         .then(products => {
+            console.log(products);
             res.render('products/products', {
                 products
             });
