@@ -107,6 +107,7 @@ app.use('/user', require('./routes/userRoutes'));
 app.use('/products', require('./routes/productRoutes'));
 app.use('/admin/userManager', require('./routes/admin/userManagerRoutes'));
 app.use('/admin/slideManager', require('./routes/admin/slideManagerRoutes'));
+app.use('/admin/categoryManager', require('./routes/admin/categoryManagerRoutes'));
 app.use(require('./controllers/errorController').get404);
 app.use(require('./controllers/errorController').getServerError);
 
