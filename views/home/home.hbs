@@ -72,14 +72,9 @@
     <div class="row mt-3">
         <div class="col-12 col-sm-6">
             <h2 class="monoton text-center pb-2">Recommended Items</h2>
-            {{!-- <ul>
-                {{#each recommendedItems}}
-                    <li>{{title}}</li>
-                {{/each}}
-            </ul> --}}
             <div class="card-group">
                 {{#each recommendedItems}}
-                    <div class="card border-warning">
+                    <div class="card">
                         <img class="card-img-top" src="{{getImageAbsolutePath imageUrl}}" alt="{{title}}">
                         <div class="card-body">
                         <h5 class="card-title">{{title}}</h5>

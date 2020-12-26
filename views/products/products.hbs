@@ -1,22 +1,18 @@
-<div class="container">
-    <div class="row">
-            {{#each products}}
-                <div class="col-12 col-sm-6 col-md-4">
-                    <h2>
-                        <a href="/products/{{_id}}">{{title}}</a>
-                    </h2>
-                    <h5>
-                        <em>
-                            {{categoryId.title}}
-                        </em>
-                    </h5>
-                    <img src="{{getImageAbsolutePath imageUrl}}" alt="{{title}}" class="d-block img-fluid">
-                    <p>{{description}}</p>
-                    <p>{{addCommos price}}</p>
-                    <p>{{formatDate issuedDate}}</p>
-                    <a href="/products/{{_id}}">Details</a>
-                    <hr>
+<div class="container-fluid">
+    <div class="row row-cols-1 row-cols-sm-4 row-cols-md-5 row-cols-lg-8 g-6 mt-4">
+        {{#each products}}
+            <div class="col mt-2 mb-2">
+                <div class="card">
+                    <a href="/products/{{_id}}">
+                        <img src="{{getImageAbsolutePath imageUrl}}" class="card-img-top" alt="{{title}}" title="{{title}}">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{title}}</h5>
+                        <p class="card-text line-clamp-3">{{description}}</p>
+                        <a href="/products/{{_id}}" class="btn btn-sm btn-warning">Find out more</a>
+                    </div>
                 </div>
-            {{/each}}
+            </div>
+        {{/each}}
     </div>
 </div>

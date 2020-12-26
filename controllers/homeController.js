@@ -15,8 +15,6 @@ exports.getHome = async (req, res, next) => {
     
     const recommendedItems = await req.user.recommendedItems();
 
-    console.log(recommendedItems);
-
     res.render('home/home', {
         slides,
         items: req.user.cart.items,
