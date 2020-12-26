@@ -1,4 +1,7 @@
 const {Schema, model} = require('mongoose');
+const { ObjectID } = require('mongodb');
+const Order = require('../models/Order');
+const Product = require('../models/Product');
 const genHash = require('../utils/genPasswordHash');
 const comparePassword = require('../utils/comparePassword');
 
@@ -101,6 +104,27 @@ userSchema.methods.removeItem = function(itemId){
 userSchema.methods.clearItems = function(){
     this.cart.items = [];
     return this.save();
+};
+
+userSchema.methods.recommendedItems = function(){
+    var user = this;
+
+    return Order.find({ 'user.userId': user._id})
+        .sort({issuedDate: -1})
+        .limit(1)
+        .populate('items.product.categoryId')
+        .then(doc => {
+            // console.log(JSON.stringify(doc, undefined, 3));
+            const favCategories = doc[0]
+                                    .items
+                                    .filter(item => item.product.categoryId !== undefined && item.product.categoryId !== null)
+                                    .map(item => item.product.categoryId);
+            const favorite = new ObjectID(favCategories[0]);
+            return Product.find({categoryId: favorite}).limit(3).populate('categoryId');
+        })
+        .then(products => {
+            return products;
+        });
 };
 
 userSchema.statics.login = function(email, password){

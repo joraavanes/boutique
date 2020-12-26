@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
     if(!req.session.auth) return next();
 
     User.findOne({_id: req.session.auth._id})
-        // .populate('cart.items.productId')
+        .populate('cart.items.productId')
         .then(user => {
             req.user = user;
             next();

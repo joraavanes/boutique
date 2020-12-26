@@ -69,5 +69,32 @@
             <h3>New Tips</h3>
         </div>
     </div>
+    <div class="row mt-3">
+        <div class="col-12 col-sm-6">
+            <h2 class="monoton text-center pb-2">Recommended Items</h2>
+            {{!-- <ul>
+                {{#each recommendedItems}}
+                    <li>{{title}}</li>
+                {{/each}}
+            </ul> --}}
+            <div class="card-group">
+                {{#each recommendedItems}}
+                    <div class="card border-warning">
+                        <img class="card-img-top" src="{{getImageAbsolutePath imageUrl}}" alt="{{title}}">
+                        <div class="card-body">
+                        <h5 class="card-title">{{title}}</h5>
+                        <p class="card-text line-clamp-3 font-weight-normal">{{description}}</p>
+                        </div>
+                        <div class="card-footer">
+                        <small class="text-muted">Last updated 3 mins ago</small>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <h3 class="monoton text-center">People Also Bought</h3>
+        </div>
+    </div>
         
 </div>
