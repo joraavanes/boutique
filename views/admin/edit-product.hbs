@@ -35,6 +35,14 @@
                     <input type="text" name="title" id="title" class="form-control" value="{{product.title}}"/>
                 </div>
                 <div>
+                    <label for="category" class="form-label">Category</label>
+                    <select name="categoryId" id="categoryId" class="form-control">
+                        {{#each categoryList}}
+                            <option value="{{_id}}">{{title}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div>
                     <label for="description" class="form-label">Description</label>
                     <input type="text" name="description" id="description" class="form-control" value="{{product.description}}"/>
                 </div>

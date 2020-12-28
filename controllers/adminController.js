@@ -3,12 +3,12 @@ const Product = require('../models/Product');
 const User = require('../models/User');
 const Category = require('../models/Category');
 const { removeFile } = require('../utils/lib');
+const { ObjectID } = require('mongodb');
 
 exports.dashboard = (req, res, next) => {
     let model = {};
 
     Product.find()
-        .limit(10)
         .sort({issuedDate: -1})
         .then(products => {
             model = {
@@ -97,12 +97,24 @@ exports.postNewProduct = (req, res, next) => {
 exports.getEditProduct = (req, res, next) => {
     const { _id } = req.params;
 
+    let product;
     Product.findById(_id)
-        .then(product => {
-            
+        .then(doc => {
+            product = doc;
+            return Category.find().sort({title: -1})
+        })
+        .then(categories => {
+            const categoryList = categories.map(cat => {
+                return{
+                    _id: cat._id,
+                    title: cat.title
+                }
+            });
+
             res.render('admin/edit-product', {
                 pageTitle: 'Edit product ' + product.title,
-                product
+                product,
+                categoryList
             });
         })
         .catch((err) => {
@@ -110,11 +122,10 @@ exports.getEditProduct = (req, res, next) => {
             error.httpStatusCode = 500;
             return next(error);
         });
-
 };
 
 exports.postEditProduct = (req, res, next) => {
-    const {_id, title, description, price, show, issuedDate} = req.body;
+    const {_id, title, description, price, show, issuedDate, categoryId} = req.body;
     const image = req.file;
 
     const errors = validationResult(req);
@@ -138,6 +149,7 @@ exports.postEditProduct = (req, res, next) => {
             if(image){
                 product.imageUrl = image.path;
             }
+            product.categoryId = new ObjectID(categoryId);
             product.price = price;
             product.issuedDate = issuedDate ? issuedDate : new Date().getTime(),
             product.show = show === 'on' ? true : false;
