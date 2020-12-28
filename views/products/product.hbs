@@ -1,6 +1,9 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12">
+    <div class="row mt-5">
+        <div class="col-12 col-sm-4">
+            <img src="{{getImageAbsolutePath product.imageUrl}}" class="img-fluid d-flex" alt="{{product.title}}" title="{{product.title}}">
+        </div>
+        <div class="col-12 col-sm-8">
             <h1>{{product.title}}</h1>
             <h2>{{product.categoryId.title}}</h2>
             <hr>

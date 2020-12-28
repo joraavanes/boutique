@@ -69,27 +69,42 @@
             <h3>New Tips</h3>
         </div>
     </div>
-    <div class="row mt-3">
-        <div class="col-12 col-sm-6">
-            <h2 class="monoton text-center pb-2">Recommended Items</h2>
-            <div class="card-group">
-                {{#each recommendedItems}}
-                    <div class="card">
-                        <img class="card-img-top" src="{{getImageAbsolutePath imageUrl}}" alt="{{title}}">
-                        <div class="card-body">
-                        <h5 class="card-title">{{title}}</h5>
-                        <p class="card-text line-clamp-3 font-weight-normal">{{description}}</p>
+    {{#if auth}}
+        <div class="row mt-3">
+            <div class="col-12 col-sm-6">
+                <h2 class="monoton text-center pb-2">Recommended Items</h2>
+                <div class="card-group">
+                    {{#each recommendedItems}}
+                        <div class="card">
+                            <img class="card-img-top" src="{{getImageAbsolutePath imageUrl}}" alt="{{title}}">
+                            <div class="card-body">
+                            <h5 class="card-title">{{title}}</h5>
+                            <p class="card-text line-clamp-3 font-weight-normal">{{description}}</p>
+                            </div>
                         </div>
-                        <div class="card-footer">
-                        <small class="text-muted">Last updated 3 mins ago</small>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <h3 class="monoton text-center">People Also Bought</h3>
+                <div class="card-group">
+                    {{#each similarBoughtItems}}
+                        <div class="card">
+                            <img class="card-img-top" src="{{getImageAbsolutePath imageUrl}}" alt="{{title}}">
+                            <div class="card-body">
+                            <h5 class="card-title">{{title}}</h5>
+                            <p class="card-text line-clamp-3 font-weight-normal">{{description}}</p>
+                            </div>
+                            <div class="card-footer">
+                            </div>
                         </div>
-                    </div>
-                {{/each}}
+                    {{/each}}
+                </div>
             </div>
         </div>
-        <div class="col-12 col-sm-6">
-            <h3 class="monoton text-center">People Also Bought</h3>
-        </div>
+    {{/if}}
+    <div class="row mt-3">
+        <h2 class="monoton text-center pb-2">New Products</h2>
     </div>
         
 </div>

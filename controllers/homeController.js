@@ -14,11 +14,13 @@ exports.getHome = async (req, res, next) => {
     }
     
     const recommendedItems = await req.user.recommendedItems();
+    const similarBoughtItems = await req.user.itemsBoughtByOthers(recommendedItems);
 
     res.render('home/home', {
         slides,
         items: req.user.cart.items,
-        recommendedItems
+        recommendedItems,
+        similarBoughtItems
     });
 
     // req.user
@@ -40,17 +42,4 @@ exports.getHome = async (req, res, next) => {
     //         error.httpStatusCode = 500;
     //         return next(error);
     //     });
-};
-
-exports.tryAgg = async (req, res, next) => {
-    
-    // Order.aggregate([{
-    //     $group:{
-    //             _id: "$items.product._id",
-    //             obj: { $push: { date: "$issuedDate", title: "$items.product.title" } }
-    //         }
-    // }])
-    // .then(doc => {
-    //     res.send(doc);
-    // });
 };

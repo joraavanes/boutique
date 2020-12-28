@@ -127,6 +127,26 @@ userSchema.methods.recommendedItems = function(){
         });
 };
 
+userSchema.methods.itemsBoughtByOthers = function(recommendedItems){
+    var user = this;
+
+    return Order.find({
+            'user.userId': { $ne: user._id},
+            'items.product.categoryId': new ObjectID(recommendedItems[0].categoryId._id)
+        })
+        .then(res => {
+            const itemsArray = res.map(order => {
+                return order.items.map(item =>{
+                    return item.product;
+                });
+            });
+            return itemsArray.flat().slice(0, 4);
+        })
+        .catch(err => {
+            throw err;
+        });
+};
+
 userSchema.statics.login = function(email, password){
     
     let _id;
