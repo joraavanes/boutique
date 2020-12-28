@@ -38,7 +38,7 @@
                     <label for="category" class="form-label">Category</label>
                     <select name="categoryId" id="categoryId" class="form-control">
                         {{#each categoryList}}
-                            <option value="{{_id}}">{{title}}</option>
+                            <option value="{{_id}}" {{#compare _id currentCategory}}{{/compare}}>{{title}}</option>
                         {{/each}}
                     </select>
                 </div>

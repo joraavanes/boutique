@@ -107,7 +107,8 @@ exports.getEditProduct = (req, res, next) => {
             const categoryList = categories.map(cat => {
                 return{
                     _id: cat._id,
-                    title: cat.title
+                    title: cat.title,
+                    currentCategory: product.categoryId
                 }
             });
 

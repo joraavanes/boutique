@@ -25,6 +25,9 @@ app.engine('hbs', handlebars({
     extname: 'hbs',
     handlebars: allowInsecurePrototypeAccess(_handlebars),
     helpers:{
+        compare: function(value1, value2){
+            return value1.toString() == value2.toString() ? 'selected' : 'na';
+        },
         formatDate: function(value){
             return new Date(value).toLocaleDateString();
         },
