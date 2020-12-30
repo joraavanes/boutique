@@ -9,8 +9,9 @@ exports.getHome = async (req, res, next) => {
     console.log(colors.cyan(req.session));
     const slides = await Slide.find({shown: true});
 
+    const newProducts = await Product.find().limit(6).sort({issuedDate: -1});
     if(!req.user) {
-        return res.render('home/home', {slides});
+        return res.render('home/home', {slides, newProducts});
     }
     
     const recommendedItems = await req.user.recommendedItems();
@@ -20,7 +21,8 @@ exports.getHome = async (req, res, next) => {
         slides,
         items: req.user.cart.items,
         recommendedItems,
-        similarBoughtItems
+        similarBoughtItems,
+        newProducts
     });
 
     // req.user

@@ -44,6 +44,9 @@
                 <div class="card-body text-secondary">
                     {{!-- <h5 class="card-title">Secondary card title</h5> --}}
                     {{!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
+                    {{#unless items}}
+                        <span>No items in cart!</span>
+                    {{/unless}}
                     <ul class="list-group list-group-flush">
                         {{#each items}}
                             <li class="list-group-item">
@@ -65,8 +68,15 @@
             </div>
         </div>
         
-        <div class="col-12 col-sm-1">
+        <div class="col-12 col-sm-2">
             <h3>New Tips</h3>
+            <div class="card text-dark bg-light">
+                <div class="card-header">Header</div>
+                <div class="card-body">
+                    <h5 class="card-title">Lorem, ipsum.</h5>
+                    <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ex et nemo unde, quaerat iste ut adipisci dignissimos temporibus quam. Sequi?</p>
+                </div>
+            </div>
         </div>
     </div>
     {{#if auth}}
@@ -80,7 +90,8 @@
                             <div class="card-body">
                             <h5 class="card-title">{{title}}</h5>
                             <p class="card-text line-clamp-3 font-weight-normal">{{description}}</p>
-                            </div>
+                            <a href="/products/{{_id}}" class="btn btn-sm btn-warning">Find out more</a>
+                        </div>
                         </div>
                     {{/each}}
                 </div>
@@ -94,17 +105,30 @@
                             <div class="card-body">
                             <h5 class="card-title">{{title}}</h5>
                             <p class="card-text line-clamp-3 font-weight-normal">{{description}}</p>
-                            </div>
-                            <div class="card-footer">
-                            </div>
+                            <a href="/products/{{_id}}" class="btn btn-sm btn-warning">Find out more</a>
+                        </div>
                         </div>
                     {{/each}}
                 </div>
             </div>
         </div>
     {{/if}}
-    <div class="row mt-3">
+    <div class="row mt-5 mb-5">
         <h2 class="monoton text-center pb-2">New Products</h2>
+        <div class="col-12">
+                <div class="card-group">
+                    {{#each newProducts}}
+                        <div class="card">
+                            <img class="card-img-top" src="{{getImageAbsolutePath imageUrl}}" alt="{{title}}">
+                                <div class="card-body">
+                                <h5 class="card-title">{{title}}</h5>
+                                <p class="card-text line-clamp-3 font-weight-normal">{{description}}</p>
+                                <a href="/products/{{_id}}" class="btn btn-sm btn-warning">Find out more</a>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
     </div>
         
 </div>

@@ -192,7 +192,7 @@ exports.postNewCategory = (req, res, next) => {
 
     category.save()
         .then(doc => {
-            res.redirect('/admin/products');
+            res.redirect('/admin/dashboard');
         })
         .catch(err => {
             console.log(err);
