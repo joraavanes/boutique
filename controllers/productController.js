@@ -15,13 +15,14 @@ exports.getProduct = (req, res, next) => {
         .populate('categoryId')
         .then(product => {
             
-            res.render('products/product', {
-                product
-            });
+            if(!product)
+                return Promise.reject({httpStatusCode: 404, message: 'Product was not found'});
+
+            res.render('products/product', {product});
         })
         .catch(err => {
-            const error = new Error(err);
-            error.httpStatusCode = 500;
+            const error = new Error(err.message);
+            error.httpStatusCode = err.httpStatusCode || 500;
             return next(error);
         });   
 }; 
@@ -32,9 +33,7 @@ exports.getProducts = (req, res, next) => {
         .populate('categoryId')
         .then(products => {
             
-            res.render('products/products', {
-                products
-            });
+            res.render('products/products', {products});
         })
         .catch(err => {
             const error = new Error(err);
