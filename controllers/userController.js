@@ -85,7 +85,7 @@ exports.postSignup = (req, res, next) => {
 
 // GET: /user/resetPassword
 exports.getResetPassword = (req, res, next) => {    
-    res.render('user/resetPassword.hbs');
+    res.render('user/resetPassword');
 };
 
 // POST: /user/resetPassword
