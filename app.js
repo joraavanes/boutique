@@ -6,6 +6,7 @@ const handlebars = require('express-handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 const session = require('express-session');
 const SessionStore = require('connect-mongodb-session')(session);
+const morgan = require('morgan');
 const {config} = require('dotenv');
 const helmet = require('helmet');
 const colors = require('colors');
@@ -19,6 +20,20 @@ const {connectionString, localDatabase, options} = require('./db/db');
 const port = process.env.PORT || 3000;
 
 const app = module.exports = express();
+
+// custom token to add error message to log
+morgan.token('errorMessage', function(req, res){ return req.errorMessage; })
+
+// print out logs only with 4xx and 5xx responses to console
+app.use(morgan(':method :url :status Error::errorMessage', {
+    skip: function ( req, res) { return res.statusCode < 400;}
+}));
+
+// write 4xx and 5xx logs to access.log file
+app.use(morgan(':method :url :status Error::errorMessage', {
+    skip: function (req, res) { return res.statusCode < 400; },
+    stream: require('fs').createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'})
+}));
 
 // View engine setup
 app.engine('hbs', handlebars({
@@ -112,6 +127,7 @@ app.use('/admin/userManager', require('./routes/admin/userManagerRoutes'));
 app.use('/admin/slideManager', require('./routes/admin/slideManagerRoutes'));
 app.use('/admin/categoryManager', require('./routes/admin/categoryManagerRoutes'));
 app.use(require('./controllers/errorController').get404);
+app.use(require('./controllers/errorController').errorLogger);
 app.use(require('./controllers/errorController').getServerError);
 
 mongoose.Promise = global.Promise;
