@@ -7,22 +7,25 @@ const { ObjectID } = require('mongodb');
 
 exports.getHome = async (req, res, next) => {
     console.log(colors.cyan(req.session));
-    const slides = await Slide.find({shown: true});
-
-    const newProducts = await Product.find().limit(6).sort({issuedDate: -1});
-    if(!req.user) {
-        return res.render('home/home', {slides, newProducts});
+    
+    let recommendedItems, similarBoughtItems, cartItems;
+    if(req.user) {
+        recommendedItems = await req.user.recommendedItems();
+        similarBoughtItems = await req.user.itemsBoughtByOthers(recommendedItems);
+        cartItems = req.user.cart.items;
     }
     
-    const recommendedItems = await req.user.recommendedItems();
-    const similarBoughtItems = await req.user.itemsBoughtByOthers(recommendedItems);
+    const slides = await Slide.find({shown: true});
+    const newProducts = await Product.find().limit(6).sort({issuedDate: -1});
+    const categories = await Category.find().limit(4);
 
     res.render('home/home', {
         slides,
-        items: req.user.cart.items,
+        cartItems,
         recommendedItems,
         similarBoughtItems,
-        newProducts
+        newProducts,
+        categories
     });
 
     // req.user

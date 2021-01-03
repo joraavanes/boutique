@@ -44,11 +44,11 @@
                 <div class="card-body text-secondary">
                     {{!-- <h5 class="card-title">Secondary card title</h5> --}}
                     {{!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
-                    {{#unless items}}
+                    {{#unless cartItems}}
                         <span>No items in cart!</span>
                     {{/unless}}
                     <ul class="list-group list-group-flush">
-                        {{#each items}}
+                        {{#each cartItems}}
                             <li class="list-group-item">
                                 {{this.productId.title}} - {{this.quantity}} 
                                 
@@ -132,3 +132,9 @@
     </div>
         
 </div>
+
+<ul>
+    {{#each categories}}
+        <li>{{title}}</li>
+    {{/each}}
+</ul>

@@ -75,7 +75,7 @@ app.set('views','views');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const sessionStore = new SessionStore({
+const store = new SessionStore({
     uri: connectionString,
     collection: 'user_sessions'
 });
@@ -90,7 +90,7 @@ app.use(session({
         httpOnly: true,
         maxAge: 3600000 * 5 // expires within 5 hours (1800000ms)
     },
-    store: sessionStore
+    store
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
