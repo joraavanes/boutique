@@ -86,7 +86,7 @@ exports.postSignup = (req, res, next) => {
 
 // GET: /user/resetPassword
 exports.getResetPassword = (req, res, next) => {    
-    res.render('user/resetPassword');
+    res.render('user/resetUserPassword');
 };
 
 // POST: /user/resetPassword
@@ -108,13 +108,13 @@ exports.postResetPassword = (req, res, next) => {
                 <p>Please click on the <a href="http://localhost:3000/user/newPassword/${user.resetPasswordToken}">link</a> in order to define a new password</p>`
             });
         })
-        .then(email => res.render('user/resetPassword', { formmsg: 'Please check your mailbox. An email including a link is sent for you.'}))
+        .then(email => res.render('user/resetUserPassword', { formmsg: 'Please check your mailbox. An email including a link is sent for you.'}))
         .catch((err) => {
             let error = new Error(err);
             error.httpStatusCode = err?.httpStatusCode ?? 500;
 
             if(error.httpStatusCode == 404){
-                return res.render('user/resetPassword', { errmsg: err.message });
+                return res.render('user/resetUserPassword', { errmsg: err.message });
             }
 
             return next(error);
