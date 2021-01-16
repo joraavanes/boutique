@@ -189,6 +189,9 @@ userSchema.statics.generateResetPasswordToken = function(email, token) {
 
     return User.findOne({email})
                 .then(user => {
+                    if(!user){
+                        return Promise.reject({httpStatusCode: 404, message: 'No users found'});
+                    }
                     user.resetPasswordToken = token;
                     // const expiration = new Date().getTime() + 3600000;
                     user.resetPasswordExpiration = new Date().getTime() + 3600000;
@@ -196,7 +199,7 @@ userSchema.statics.generateResetPasswordToken = function(email, token) {
                     return user.save();
                 })
                 .then(user => Promise.resolve(user))
-                .catch(err => Promise.reject());
+                .catch(err => Promise.reject(err));
 };
 
 userSchema.statics.newPassword = function(email, newPassword){

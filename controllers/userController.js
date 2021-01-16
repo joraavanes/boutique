@@ -1,4 +1,5 @@
 const {validationResult} = require('express-validator');
+const colors = require('colors');
 
 const User = require('../models/User');
 const randomBytes = require('../utils/randomBytes');
@@ -108,7 +109,16 @@ exports.postResetPassword = (req, res, next) => {
             });
         })
         .then(email => res.render('user/resetPassword', { formmsg: 'Please check your mailbox. An email including a link is sent for you.'}))
-        .catch((err) => res.render('user/resetPassword', { errmsg: 'No users found' }));
+        .catch((err) => {
+            let error = new Error(err);
+            error.httpStatusCode = err?.httpStatusCode ?? 500;
+
+            if(error.httpStatusCode == 404){
+                return res.render('user/resetPassword', { errmsg: err.message });
+            }
+
+            return next(error);
+        });
 };
 
 // GET: /user/newPassword/:token
