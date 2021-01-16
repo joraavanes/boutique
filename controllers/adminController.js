@@ -181,10 +181,19 @@ exports.deleteProduct = (req, res, next) => {
         });
 };
 
-exports.getNewCategory = (req, res, next) => {
-    res.render('admin/new-category', {});
+// GET: /admin/categoryManager
+exports.getCategories = async (req ,res, next) => {
+    const categories = await Category.find();
+
+    res.render('admin/categoryManager/default', {categories});
 };
 
+// GET: /admin/categoryManager/new-category
+exports.getNewCategory = (req, res, next) => {
+    res.render('admin/categoryManager/new-category', {});
+};
+
+// POST: /admin/categoryManager/new-category
 exports.postNewCategory = (req, res, next) => {
     const {title} = req.body;
 
@@ -192,7 +201,7 @@ exports.postNewCategory = (req, res, next) => {
 
     category.save()
         .then(doc => {
-            res.redirect('/admin/dashboard');
+            res.redirect('/admin/categoryManager');
         })
         .catch(err => {
             console.log(err);

@@ -93,8 +93,13 @@ router.post(
 // DELETE: /admin/products/delete-product
 router.delete('/products/delete-product/', adminController.deleteProduct);
 
-router.get('/categories/new-category', adminController.getNewCategory);
+// GET: /admin/categoryManager
+router.get('/categoryManager/', adminController.getCategories);
 
-router.post('/categories/new-category', adminController.postNewCategory);
+// GET: /admin/categoryManager/new-category
+router.get('/categoryManager/new-category', adminController.getNewCategory);
+
+// POST: /admin/categoryManager/new-category
+router.post('/categoryManager/new-category', adminController.postNewCategory);
 
 module.exports = router;
