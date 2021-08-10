@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const multerStorage = require('../middleware/multer');
 const csrf = require('csurf');
 const {body} = require('express-validator');
 const {ObjectId} = require('mongodb');
@@ -20,22 +21,7 @@ router.get('/products/new-product',
 // POST: /admin/products/new-product
 router.post(
     '/products/new-product',
-    multer({
-        storage: multer.diskStorage({
-            destination: (req, file, callback) => {
-                    callback(null, 'public/user-files');
-            },
-            filename: (req, file, callback) => {
-                    callback(null, `${new Date().getTime()}-${file.originalname}`);
-            },
-            fileFilter: (req, file, callback) => {
-                if(file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg')
-                    callback(null, true);
-                else
-                    callback(null, false);
-            },
-        })
-    }).single('imageUrl'),
+    multerStorage,
     csrf(),
     require('../middleware/csrfTokens'),
     [
@@ -57,22 +43,7 @@ router.get('/products/edit-product/:_id',
 // POST: /admin/products/edit-product
 router.post(
     '/products/edit-product',
-    multer({
-            storage: multer.diskStorage({
-            destination: (req, file, callback) => {
-                    callback(null, 'public/user-files');
-            },
-            filename: (req, file, callback) => {
-                    callback(null, `${new Date().getTime()}-${file.originalname}`);
-            },
-            fileFilter: (req, file, callback) => {
-                if(file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg')
-                    callback(null, true);
-                else
-                    callback(null, false);
-            },
-        })
-    }).single('imageUrl'),
+    multerStorage,
     csrf(),
     require('../middleware/csrfTokens'),
     [
