@@ -17,6 +17,7 @@ require('./utils/lib');
 config({ path: './config/config.env'});
 
 const {connectionString, localDatabase, options} = require('./db/db');
+const attachRoutes = require('./routes');
 const port = process.env.PORT || 3000;
 
 const app = module.exports = express();
@@ -118,26 +119,11 @@ app.use(require('./middleware/currentUser'));
 app.use(require('./middleware/checkAuth'));
 
 // Routes
-app.use(require('./routes/homeRoutes'));
-app.use('/admin', authenticate, require('./routes/adminRoutes'));
-app.use('/shop', authenticate, require('./routes/shopRoutes'));
-app.use('/user', require('./routes/userRoutes'));
-app.use('/products', require('./routes/productRoutes'));
-app.use('/admin/userManager', require('./routes/admin/userManagerRoutes'));
-app.use('/admin/slideManager', require('./routes/admin/slideManagerRoutes'));
-app.use('/admin/categoryManager', require('./routes/admin/categoryManagerRoutes'));
-app.use(require('./controllers/errorController').get404);
-app.use(require('./controllers/errorController').errorLogger);
-app.use(require('./controllers/errorController').getServerError);
+attachRoutes(app);
 
 mongoose.Promise = global.Promise;
 mongoose.connect(connectionString, options)
-    .then(user => {
-        // if(!user) {
-        //     const user = new User({email: 'jora_a@outlook.com', name: 'Jora', surname: 'avanesians', password: 'Hello@world'})    ;
-        //     user.save();
-        // }
-        
+    .then(() => {        
         app.listen(port, () => console.log(colors.bgGreen(`App is running on http://localhost:${port}`)));
     })
     .catch(err => { 
