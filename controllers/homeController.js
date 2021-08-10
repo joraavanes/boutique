@@ -10,13 +10,13 @@ exports.getHome = async (req, res, next) => {
     
     let recommendedItems, similarBoughtItems, cartItems;
     if(req.user) {
-        recommendedItems = await req.user.recommendedItems();
-        similarBoughtItems = await req.user.itemsBoughtByOthers(recommendedItems);
+        // recommendedItems = await req.user.recommendedItems();
+        // similarBoughtItems = await req.user.itemsBoughtByOthers(recommendedItems);
         cartItems = req.user.cart.items;
     }
     
     const slides = await Slide.find({shown: true});
-    const newProducts = await Product.find().limit(6).sort({issuedDate: -1});
+    const newProducts = await Product.find({show: true}).sort({issuedDate: -1}).limit(3);
     const categories = await Category.find().limit(4);
 
     res.render('home/home', {
